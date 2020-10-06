@@ -486,4 +486,31 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    /**
+     * Hash les mots de passe non hashé des visiteurs en bdd
+     */
+    public static function hashPasswords(){
+        if (PdoGsb::$monPdoGsb == null) {
+            PdoGsb::$monPdoGsb = new PdoGsb();
+        }
+        
+        $sql = "SELECT * FROM `visiteur`";
+        $requetePrepare = PdoGSB::$monPdo->prepare($sql);
+        $requetePrepare->execute();
+        $tableauResult = $requetePrepare->fetchALL(PDO::FETCH_ASSOC);
+
+        foreach ($tableauResult as $ligne) {
+            if(strlen($ligne["mdp"])!==64)
+            {
+                $pwdHashed = hash("sha256", $ligne["mdp"]);            
+                $sql = "update visiteur set mdp = '". $pwdHashed . "' where id = '" . $ligne["id"]."'";
+                $requetePrepare = PdoGSB::$monPdo->prepare($sql);
+                $requetePrepare->execute();
+                echo "hashé <br>";
+            }
+        }
+        
+        echo "c'est hashé";
+    }
 }
