@@ -26,18 +26,45 @@ case 'demandeConnexion':
 case 'valideConnexion':
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
     $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
-    $visiteur = $pdo->getInfosVisiteur($login, hash("sha256", $mdp));
-    if (!is_array($visiteur)) {
-        ajouterErreur('Login ou mot de passe incorrect');
+    $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+    
+    if($type == "comptable"){
+        
+        $comptable = $pdo->getInfosComptable($login, $mdp);
+        
+        if (!is_array($comptable)) {
+            ajouterErreur('Login ou mot de passe incorrect');
+            include 'vues/v_erreurs.php';
+            include 'vues/v_connexion.php';
+        } else {
+            $id = $visiteur['id'];
+            $nom = $visiteur['nom'];
+            $prenom = $visiteur['prenom'];
+            connecter($id, $nom, $prenom, $type);
+            header('Location: index.php');
+        }
+    } else if($type == "visiteur"){
+        
+        $visiteur = $pdo->getInfosVisiteur($login, hash("sha256", $mdp));
+        
+        if (!is_array($visiteur)) {
+            ajouterErreur('Login ou mot de passe incorrect');
+            include 'vues/v_erreurs.php';
+            include 'vues/v_connexion.php';
+        } else {
+            $id = $visiteur['id'];
+            $nom = $visiteur['nom'];
+            $prenom = $visiteur['prenom'];
+            connecter($id, $nom, $prenom, $type);
+            header('Location: index.php');
+        }
+    } else{
+        ajouterErreur('Erreur au niveau du type');
         include 'vues/v_erreurs.php';
         include 'vues/v_connexion.php';
-    } else {
-        $id = $visiteur['id'];
-        $nom = $visiteur['nom'];
-        $prenom = $visiteur['prenom'];
-        connecter($id, $nom, $prenom);
-        header('Location: index.php');
-    }
+}
+    
+    
     break;
 default:
     include 'vues/v_connexion.php';

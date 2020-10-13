@@ -41,6 +41,13 @@
                                 <input class="form-control"
                                        placeholder="Mot de passe" name="mdp"
                                        type="password" maxlength="45">
+                                
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" name="type" value="visiteur" id="rdvisiteur">
+                                <label for="rdvisiteur">Visiteur</label>
+                                <input type="radio" name="type" value="comptable" id="rdcomptable">
+                                <label for="rdcomptable">Comptable</label>
                             </div>
                         </div>
                         <input class="btn btn-lg btn-success btn-block"
