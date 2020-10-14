@@ -37,9 +37,9 @@ case 'valideConnexion':
             include 'vues/v_erreurs.php';
             include 'vues/v_connexion.php';
         } else {
-            $id = $visiteur['id'];
-            $nom = $visiteur['nom'];
-            $prenom = $visiteur['prenom'];
+            $id = $comptable['id'];
+            $nom = $comptable['nom'];
+            $prenom = $comptable['prenom'];
             connecter($id, $nom, $prenom, $type);
             header('Location: index.php');
         }
