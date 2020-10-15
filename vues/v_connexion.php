@@ -44,9 +44,11 @@
                                 
                             </div>
                             <div class="radio-group">
-                                <input type="radio" name="type" value="visiteur" id="rdvisiteur">
+                                <input type="radio" name="type" value="visiteur" 
+                                       id="rdvisiteur" checked>
                                 <label for="rdvisiteur">Visiteur</label>
-                                <input type="radio" name="type" value="comptable" id="rdcomptable">
+                                <input type="radio" name="type" value="comptable" 
+                                       id="rdcomptable">
                                 <label for="rdcomptable">Comptable</label>
                             </div>
                         </div>

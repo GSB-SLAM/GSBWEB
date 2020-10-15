@@ -30,7 +30,7 @@ case 'valideConnexion':
     
     if($type == "comptable"){
         
-        $comptable = $pdo->getInfosComptable($login, $mdp);
+        $comptable = $pdo->getInfosComptable($login, hash("sha256", $mdp));
         
         if (!is_array($comptable)) {
             ajouterErreur('Login ou mot de passe incorrect');
@@ -59,7 +59,7 @@ case 'valideConnexion':
             header('Location: index.php');
         }
     } else{
-        ajouterErreur('Erreur au niveau du type');
+        ajouterErreur('Veuillez sélectionner Visiteur ou Comptable');
         include 'vues/v_erreurs.php';
         include 'vues/v_connexion.php';
 }
