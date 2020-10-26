@@ -29,7 +29,10 @@
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </span>
-                                <input class="form-control" placeholder="Login"
+                                <input class="form-control" placeholder="Login" 
+                                       <?php if(isset($_POST["login"])){
+                                           echo "value='" . $_POST["login"] . "'";
+                                       }?>
                                        name="login" type="text" maxlength="45">
                             </div>
                         </div>
