@@ -66,6 +66,17 @@ function dateFrancaisVersAnglais($maDate)
 }
 
 /**
+ * Transforme le format en base de donnée (aaaamm) en format 
+ * pour l'affichage utilisateur (mm/aaaa)
+ * 
+ * @param String $date au format aaaamm
+ * @return Date au format mm/aaaa
+ */
+function dateBDVersAffichage($date){
+    return substr($date, 4) . "/" . substr($date, 0,4);
+}
+
+/**
  * Transforme une date au format format anglais aaaa-mm-jj vers le format
  * français jj/mm/aaaa
  *

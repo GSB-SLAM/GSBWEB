@@ -9,3 +9,11 @@
 #rdcomptable{
     margin-left: 10px;
 }
+
+.d-none{
+    visibility: hidden;
+}
+
+.form-visit{
+    margin-right: 5%;
+}

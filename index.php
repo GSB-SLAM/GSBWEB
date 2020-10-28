@@ -20,7 +20,9 @@ require_once 'includes/middleware.inc.php';
 session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
-require 'vues/v_entete.php';
+if(filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) != "dateAjax"){
+    require 'vues/v_entete.php';
+}
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
 if ($uc && !$estConnecte) {
     $uc = 'connexion';
@@ -35,17 +37,21 @@ switch ($uc) {
         include 'controleurs/c_accueil.php';
         break;
     case 'gererFrais':
-        if (middlewareVisiteur()) {
+        if (middleware("visiteur")) {
             include 'controleurs/c_gererFrais.php';
         }
         break;
     case 'etatFrais':
-        if (middlewareVisiteur()) {
+        if (middleware("visiteur")) {
             include 'controleurs/c_etatFrais.php';
         }
         break;
     case 'deconnexion':
         include 'controleurs/c_deconnexion.php';
         break;
+    case 'rechercheFiche':
+        if(middleware("comptable")){
+            include 'controleurs/c_rechercheFichesFrais.php';
+        }
 }
 require 'vues/v_pied.php';

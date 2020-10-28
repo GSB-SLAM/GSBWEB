@@ -12,20 +12,23 @@
  * GitHub : https://github.com/ALautrette
  */
 
-function middlewareVisiteur() {
-    if ($_SESSION['type'] == "visiteur") {
-        return true;
-    } else {
-        include "vues/v_accesInterdit.php";
+/**
+ * Fonction permettant de vérifier que l'utilisateur appartient bien au type
+ * passé en paramettre, si c'est le cas retourne true sinon retourne faux
+ * et affiche une erreur
+ * 
+ * @param string $type type/status que doit avoir l'utilisateur pour accéder à la page
+ * @return boolean
+ */
+function middleware($type) {
+    if ($_SESSION['type'] != $type) {
+        ajouterErreur(
+                "La page à laquelle vous essayez d'accéder est réservée aux "
+                . $type . "s"
+        );
+        include "vues/v_erreurs.php";
         return false;
-    }
-}
-
-function middlewareComptable(){
-    if ($_SESSION['type'] == "comptable") {
-        return true;
     } else {
-        include "vues/v_accesInterdit.php";
-        return false;
+        return true;
     }
 }
