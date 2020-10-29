@@ -6,7 +6,7 @@
 
 function chercheDates(){
     if(document.getElementById('idVi').value == 'none'){
-        document.getElementById("date").style.visibility = "hidden";
+        document.getElementById("retour").style.visibility = "hidden";
         document.getElementById("btnRecherche").style.visibility = "hidden";
     } else{
         let xhr = new XMLHttpRequest();
@@ -17,6 +17,8 @@ function chercheDates(){
                 document.getElementById("btnRecherche").style.visibility = "visible";
                 if(document.getElementById("selectDate").value == "none"){
                     document.getElementById("btnRecherche").disabled = true;
+                } else{
+                    document.getElementById("btnRecherche").disabled = false;
                 }
             }
         };
