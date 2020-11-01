@@ -20,7 +20,12 @@ require_once 'includes/middleware.inc.php';
 session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
-if(filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) != "dateAjax"){
+$testAction = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+$ajax = array(
+    "dateAjax",
+    "corrigerFrais",
+);
+if(!in_array($testAction, $ajax)){
     require 'vues/v_entete.php';
 }
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);

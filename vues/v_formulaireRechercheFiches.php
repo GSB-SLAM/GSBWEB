@@ -10,12 +10,25 @@
  * GitHub : https://github.com/ALautrette
  */
 ?>
-<form class="form-inline" 
-      action="index.php?uc=rechercheFiche&action=afficheRecherche" method="post">    
+<form method="post" 
+      action="index.php?uc=rechercheFiche&action=afficheRecherche"
+      class="form-inline">    
     <div class="form-group form-visit">
         <label for="idVi">Choisir le visiteur :</label>
 
-        <select name="idVi" id="idVi" >
+        <select name="idVi" id="idVi" >  
+            <option value="none">Choisir</option>
+            <?php
+            foreach ($visiteurs as $visiteur) {
+                $selected = '';
+                if(isset($_SESSION['current']) && $_SESSION['current']['id'] == $visiteur['id']){
+                    $selected = "selected";
+                }
+                echo "<option value='" . $visiteur['id']
+                . "'" . $selected . ">" . $visiteur['nom'] . " "
+                . $visiteur['prenom'] . "</option>";
+            }           
+            ?>
             <option value="none">Choisir</option>
             <?php
             foreach ($visiteurs as $visiteur) {
@@ -27,11 +40,17 @@
         </select>
     </div>  
     <div class="form-group form-visit" id="retour">
+        <?php
+        if (isset($dates)) {
+            include 'v_inputDate.php';
+        }
+        ?>
     </div>
 
 
     <div class="form-group">
-        <button type="submit" id="btnRecherche" class="btn btn-primary mb-2 d-none">
+        <button id="btnRecherche" 
+                class="btn btn-primary mb-2 d-none" disabled>
             Rechercher
         </button>
     </div>
@@ -39,4 +58,3 @@
 
 </form>
 
-<script type="text/javascript" src="js/inputDatesAjax.js"></script>
