@@ -17,3 +17,37 @@
 .form-visit{
     margin-right: 5%;
 }
+
+.orange {
+    color: #fff;
+    background-color: #ff8800!important;
+}
+
+.texteorange{
+    color: #ff8800!important;
+    background-color: #fff;
+}
+
+.backgroundbouton{
+    background-color: #fff!important;
+}
+
+.borderorange{
+    border-color:#ff8800!important;
+}
+
+.nav-pills > li.active > .activeorange{
+    background-color:#ff8800!important;
+    color:#fff!important;
+}
+
+.btnorange{
+    background-color: #ff8800;
+    color: #fff;
+    border-color: #000;
+}
+
+.btnorange:hover{
+    background-color: #ff8800;
+    color:#fff;
+}

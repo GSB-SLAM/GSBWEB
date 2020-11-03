@@ -14,7 +14,7 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 ?>
-<div id="accueil">
+<div id="accueil" class="<?php if($_SESSION["type"] == "comptable"){?> texteorange <?php }?>">
     <h2>
         Gestion des frais<small> -  
             <?php 
@@ -24,8 +24,8 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
+        <div class="panel panel-primary <?php if($_SESSION["type"] == "comptable"){?> borderorange <?php }?>">
+            <div class="panel-heading <?php if($_SESSION["type"] == "comptable"){?> orange <?php }?>">
                 <h3 class="panel-title">
                     <span class="glyphicon glyphicon-bookmark"></span>
                     Navigation
@@ -36,9 +36,9 @@
                     <div class="col-xs-12 col-md-12">
                         <?php
                     if($_SESSION["type"] == "visiteur"){
-                        include 'v_navigationVisiteur.html';
+                        include 'blocks/v_navigationVisiteur.html';
                     } else if($_SESSION["type"] == "comptable"){
-                        include 'v_navigationComptable.html';
+                        include 'blocks/v_navigationComptable.html';
                     }
                     ?>                        
                     </div>

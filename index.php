@@ -46,6 +46,16 @@ switch ($uc) {
             include 'controleurs/c_etatFrais.php';
         }
         break;
+    case 'rechercheFrais':
+        if (middleware("comptable")){
+            include 'controleurs/c_validerFrais.php';
+        }
+        break;
+    case 'suivreFrais':
+        if (middleware("comptable")){
+            include 'controleurs/c_suivreFrais.php';
+        }
+        break;
     case 'deconnexion':
         include 'controleurs/c_deconnexion.php';
         break;
@@ -53,5 +63,6 @@ switch ($uc) {
         if(middleware("comptable")){
             include 'controleurs/c_rechercheFichesFrais.php';
         }
+        break;
 }
 require 'vues/v_pied.php';

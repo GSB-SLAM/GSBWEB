@@ -31,7 +31,7 @@
 
 
     <div class="form-group">
-        <button type="submit" id="btnRecherche" class="btn btn-primary mb-2 d-none">
+        <button type="submit" id="btnRecherche" class="btn mb-2 d-none btnorange">
             Rechercher
         </button>
     </div>
