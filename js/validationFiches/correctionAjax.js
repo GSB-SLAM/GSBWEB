@@ -16,10 +16,10 @@ function updateFraisForfait(){
     };
     xhr.open("post", "index.php?uc=rechercheFiche&action=corrigerFrais", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    let parametres = [document.getElementById('ETP').value];
-    parametres.push(document.getElementById('KM').value);
-    parametres.push(document.getElementById('NUI').value);
-    parametres.push(document.getElementById('REP').value);
+    let parametres = "ETP=" + document.getElementById('ETP').value;
+    parametres += "&KM=" + document.getElementById('KM').value;
+    parametres += "&NUI=" + document.getElementById('NUI').value;
+    parametres += "&REP=" + document.getElementById('REP').value;
     xhr.send(parametres);
 }
 
@@ -27,5 +27,13 @@ function cacheMessage(){
     document.getElementById("succesErreur").style.display = "none";
 }
 
+function activeBtnRecherche() {
+    document.getElementById('btnRecherche').disabled = false;
+    document.getElementById('btnRecherche').style.visibility = "visible";
+    
+}
+
 let btnCorriger = document.getElementById('btnCorriger');
 btnCorriger.addEventListener("click", updateFraisForfait, false);
+
+document.getElementById('selectDate').addEventListener("change", activeBtnRecherche, false);

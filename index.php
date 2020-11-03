@@ -58,5 +58,6 @@ switch ($uc) {
         if(middleware("comptable")){
             include 'controleurs/c_rechercheFichesFrais.php';
         }
+        break;
 }
 require 'vues/v_pied.php';

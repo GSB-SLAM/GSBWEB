@@ -18,10 +18,6 @@ switch ($action) {
 
         $idVisiteur = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
         $mois = filter_input(INPUT_POST, 'selectDate', FILTER_SANITIZE_STRING);
-
-
-//        $post = filter_var_array($_POST);
-//        list($idVisiteur, $mois) = explode(',', key($post));
         $_SESSION['current'] = array(
             'id' => $idVisiteur,
             'mois' => $mois,
@@ -32,15 +28,14 @@ switch ($action) {
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         include 'vues/v_validationFicheFrais.php';
-        include 'vues/v_ficheFraisForfaitAValider.php';
-        include 'vues/v_ficheFraisHorsForfaitAValider.php';
-        include 'vues/v_totalRemboursement.php';
+        include 'vues/blocks/v_ficheFraisForfaitAValider.php';
+        include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
+        include 'vues/blocks/v_totalRemboursement.php';
         break;
     case 'dateAjax':
-        $post = filter_var_array($_POST);
-        $id = key($post);
+        $id = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
         $dates = $pdo->getMoisFichesAValider($id);
-        include 'vues/v_inputDate.php';
+        include 'vues/blocks/v_inputDate.php';
         break;
     case 'rechercheFiche':
         unset($_SESSION['current']);
@@ -56,19 +51,17 @@ switch ($action) {
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         include 'vues/v_validationFicheFrais.php';
-        include 'vues/v_ficheFraisForfaitAValider.php';
-        include 'vues/v_ficheFraisHorsForfaitAValider.php';
-        include 'vues/v_totalRemboursement.php';
+        include 'vues/blocks/v_ficheFraisForfaitAValider.php';
+        include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
+        include 'vues/blocks/v_totalRemboursement.php';
         break;
 
     case 'corrigerFrais':
         try {
-//            $etp = filter_input(INPUT_POST, 'ETP', FILTER_SANITIZE_STRING);
-//            $km = filter_input(INPUT_POST, 'KM', FILTER_SANITIZE_STRING);
-//            $nui = filter_input(INPUT_POST, 'NUI', FILTER_SANITIZE_STRING);
-//            $rep = filter_input(INPUT_POST, 'REP', FILTER_SANITIZE_STRING);
-            $post = filter_var_array($_POST);
-            list($etp, $km, $nui, $rep) = explode(',', key($post));
+            $etp = filter_input(INPUT_POST, 'ETP', FILTER_SANITIZE_STRING);
+            $km = filter_input(INPUT_POST, 'KM', FILTER_SANITIZE_STRING);
+            $nui = filter_input(INPUT_POST, 'NUI', FILTER_SANITIZE_STRING);
+            $rep = filter_input(INPUT_POST, 'REP', FILTER_SANITIZE_STRING);
             $lesFrais = array(
                 'ETP' => $etp,
                 'KM' => $km,
@@ -79,18 +72,18 @@ switch ($action) {
             $idVisiteur = $_SESSION['current']['id'];
             if (lesQteFraisValides($lesFrais)) {
                 $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
+                ajouterSucces("Fiche mise à jour avec succès");
+                include 'vues/v_succes.php';
             } else {
                 ajouterErreur('Les valeurs des frais doivent être numériques');
                 include 'vues/v_erreurs.php';
             }
-            ajouterSucces("Fiche mise à jour avec succès");
-            include 'vues/v_succes.php';
+            
+            
         } catch (Exception $ex) {
             ajouterErreur("Erreur lors de correction");
             include 'vues/v_erreurs.php';
         }
-
-    //var_dump($_POST);
 }
 
 

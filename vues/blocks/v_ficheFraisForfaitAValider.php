@@ -43,4 +43,4 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/validationFiches/test.js"></script>
+<script type="text/javascript" src="js/validationFiches/correctionAjax.js"></script>

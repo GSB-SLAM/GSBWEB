@@ -12,7 +12,7 @@
 ?>
 <div id="succesErreur" style="display: none"></div>
 <?php
-include 'v_formulaireRechercheFiches.php';
+include 'blocks/v_formulaireRechercheFiches.php';
 ?>
 <!--<div>
     <div class = "col-md-4">
@@ -36,6 +36,6 @@ include 'v_formulaireRechercheFiches.php';
 
 
 
-
-<script type="text/javascript" src="js/validationFiches/fonctions.js"></script>
-<script type="text/javascript" src="js/validationFiches/eventListeners.js"></script>
+<script type="text/javascript" src="js/validationFiches/formulaireAjax.js"></script>
+<!--<script type="text/javascript" src="js/validationFiches/fonctions.js"></script>
+<script type="text/javascript" src="js/validationFiches/eventListeners.js"></script>-->
