@@ -29,14 +29,6 @@
                 . $visiteur['prenom'] . "</option>";
             }           
             ?>
-            <option value="none">Choisir</option>
-            <?php
-            foreach ($visiteurs as $visiteur) {
-                echo "<option value='" . $visiteur['id']
-                . "'>" . $visiteur['nom'] . " "
-                . $visiteur['prenom'] . "</option>";
-            }
-            ?>
         </select>
     </div>  
     <div class="form-group form-visit" id="retour">
@@ -50,7 +42,7 @@
 
     <div class="form-group">
         <button id="btnRecherche" 
-                class="btn btn-primary mb-2 d-none" disabled>
+                class="btn btnorange mb-2 d-none" disabled>
             Rechercher
         </button>
     </div>

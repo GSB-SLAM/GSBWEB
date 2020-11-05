@@ -462,6 +462,21 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
+    public function getVisiteursAValider() {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "select DISTINCT visiteur.id as id, "
+                . "visiteur.nom as nom, "
+                . "visiteur.prenom as prenom "
+                . "from visiteur "
+                . "inner join fichefrais "
+                . "on visiteur.id = fichefrais.idvisiteur "
+                . "where fichefrais.idetat='CL'"
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+        
+    }
+
     /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
      *
