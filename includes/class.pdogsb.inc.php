@@ -445,6 +445,24 @@ class PdoGsb {
     }
 
     /**
+     * Suspend le frais hors forfait dont l'id est passé en argument
+     * c'est à dire le reporte au mois suivant 
+     * 
+     * @param string $id du frais
+     * 
+     * @return null
+     */
+    public function suspendreFraisHorsForfait($idFrais) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'update lignefraishorsforfait '
+                . 'set mois=CONVERT(mois, integer)+1 '
+                . 'where id=:id'
+        );
+        $requetePrepare->bindValue(':id', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+    /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
      *
      * @param String $idVisiteur ID du visiteur
@@ -524,6 +542,61 @@ class PdoGsb {
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+
+    /**
+     * Retourne le total en € à rembourser sur une fiche
+     * 
+     * @param string $id du visiteur 
+     * @param string $mois de la fiche
+     * @return le total à rembourser (float)
+     */
+    public function getMontantTotal($id, $mois) {
+        $montantForfait = $this->getMontantTotalForfait($id, $mois);
+        $montantFraisHors = $this->getMontantTotalHorsForfait($id, $mois);
+        return $montantForfait + $montantFraisHors;
+    }
+
+    /**
+     * Retourne le montant en € à rembourser pour les frais forfaitisés
+     * 
+     * @param string $id du visiteur 
+     * @param string $mois de la fiche
+     * @return le total à rembourser pour les frais forfaitisés (float)
+     */
+    private function getMontantTotalForfait($id, $mois) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'select sum(lignefraisforfait.quantite*fraisforfait.montant) '
+                . 'as total '
+                . 'from fraisforfait '
+                . 'inner join lignefraisforfait '
+                . 'on fraisforfait.id = lignefraisforfait.idfraisforfait '
+                . 'where idvisiteur=:id and mois=:mois'
+        );
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res = $requetePrepare->fetch();
+        return (float) $res['total'];
+    }
+
+    /**
+     * Retourne le montant en € à rembourser pour les frais hors forfait
+     * 
+     * @param string $id du visiteur 
+     * @param string $mois de la fiche
+     * @return le total à rembourser pour les frais hors forfait (float)
+     */
+    private function getMontantTotalHorsForfait($id, $mois) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'select sum(montant) as total from lignefraishorsforfait '
+                . 'where idvisiteur=:id and mois=:mois'
+        );
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res = $requetePrepare->fetch();
+        return (float) $res['total'];
     }
 
     /**

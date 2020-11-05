@@ -4,30 +4,31 @@
  * and open the template in the editor.
  */
 
-function chercheDates(){
-    if(document.getElementById('idVi').value == 'none'){
+
+function chercheDates() {
+    if (document.getElementById('idVi').value == 'none') {
         document.getElementById("retour").style.visibility = "hidden";
         document.getElementById("btnRecherche").style.visibility = "hidden";
-    } else{
+        document.getElementById("btnRecherche").disabled = true;
+    } else {
         let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            if(this.readyState == 4 && this.status ==200){
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('retour').innerHTML = xhr.responseText;
                 document.getElementById('retour').style.visibility = "visible";
                 document.getElementById("btnRecherche").style.visibility = "visible";
-                if(document.getElementById("selectDate").value == "none"){
+                if (document.getElementById("selectDate").value == "none") {
                     document.getElementById("btnRecherche").disabled = true;
-                } else{
+                } else {
                     document.getElementById("btnRecherche").disabled = false;
                 }
             }
         };
         xhr.open("post", "index.php?uc=rechercheFiche&action=dateAjax", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        let parametres = document.getElementById('idVi').value;
-                
+        let parametres = "idVi=" + document.getElementById('idVi').value;
         xhr.send(parametres);
-    }    
+    }
 }
 
 let inputVi = document.getElementById('idVi');

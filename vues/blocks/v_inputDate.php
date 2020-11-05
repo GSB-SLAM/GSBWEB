@@ -17,7 +17,11 @@
         echo "<option value='none'>Aucune fiche à valider</option>";        
     } else {
         foreach ($dates as $date) {
-            echo "<option value='" . $date[mois] . "'>" . dateBDVersAffichage($date[mois])
+            $selected = '';
+                if(isset($_SESSION['current']) && $_SESSION['current']['mois'] == $date['mois']){
+                    $selected = "selected";
+                }
+            echo "<option value='" . $date['mois'] . "'>" . dateBDVersAffichage($date['mois'])
             . "</option>";
         }
     }
