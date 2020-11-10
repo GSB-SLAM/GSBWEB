@@ -122,11 +122,12 @@ class PdoGsb {
 
     /**
      * Retourne un tableau associatif contenant le mois de toutes les fiches
-     * dont la saisie est clôturée, soit qui sont prête à être validées, pour 
+     * dont la saisie est clôturée, soit qui sont prêtes à être validées, pour 
      * un utilisateur donné
      * 
-     * @param string $idVisiteur id du visiteur sur lequelle va se porter la recherche
-     * @return tableau associatif
+     * @param string $idVisiteur id du visiteur sur lequel va se porter la 
+     * recherche
+     * @return tableau associatif de mois sous la forme mmaaaa
      */
     public function getMoisFichesAValider($idVisiteur) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -139,7 +140,13 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    /**Retourne un tableau associatif contenant le mois de toutes les fiches 
+     * qui ont été préalablement validées, soit qui sont validées, pour un 
+     * utilisateur donné 
+     * @param string $idVisiteur du visiteur sur lequel va se porter la 
+     * recherche
+     * @return tableau associatif de mois sous la forme mmaaaa
+     */
     public function getMoisFichesValidees($idVisiteur) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 'select fichefrais.mois as mois '
@@ -474,6 +481,28 @@ class PdoGsb {
         $requetePrepare->bindValue(':id', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    /**
+     * Retourne les ID des visiteurs pour lesquelles les visiteurs
+     * sélectionnés ont des fiches de frais à l'état validée
+     * 
+     * @return tableau associatif d'id des visiteurs
+     */
+    public function getVisiteursValidee() {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "select DISTINCT visiteur.id as id, "
+                . "visiteur.nom as nom, "
+                . "visiteur.prenom as prenom "
+                . "from visiteur "
+                . "inner join fichefrais "
+                . "on visiteur.id = fichefrais.idvisiteur "
+                . "where fichefrais.idetat='VA'"
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+       
+    }
+
+
 
     /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais

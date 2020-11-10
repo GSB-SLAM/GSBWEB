@@ -11,8 +11,8 @@
  */
 ?>
 <form method="post" 
-      action="index.php?uc=rechercheFiche&action=afficheRecherche"
-      class="form-inline">    
+      action="index.php?uc=<?php echo $uc?>&action=afficheRecherche"
+       class="form-inline">    
     <div class="form-group form-visit">
         <label for="idVi">Choisir le visiteur :</label>
 
