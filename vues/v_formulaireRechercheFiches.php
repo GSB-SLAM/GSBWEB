@@ -11,7 +11,7 @@
  */
 ?>
 <form class="form-inline" 
-      action="index.php?uc=rechercheFiche&action=afficheRecherche" method="post">    
+      action="index.php?<?php echo $uc ?>=rechercheFiche&action=afficheRecherche" method="post">    
     <div class="form-group form-visit">
         <label for="idVi">Choisir le visiteur :</label>
 
@@ -38,5 +38,3 @@
 
 
 </form>
-
-<script type="text/javascript" src="js/inputDatesAjax.js"></script>

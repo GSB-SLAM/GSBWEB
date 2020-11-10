@@ -21,6 +21,7 @@
 .orange {
     color: #fff;
     background-color: #ff8800!important;
+    border-color: #ff8800 !important;
 }
 
 .texteorange{
@@ -42,12 +43,18 @@
 }
 
 .btnorange{
-    background-color: #ff8800;
-    color: #fff;
-    border-color: #000;
+    background-color: #ff8800!important;
+    color: #fff!important;
+    border-color: #000!important;
 }
 
 .btnorange:hover{
     background-color: #ff8800;
+    color:#fff;
+}
+
+.btnsuivreorange{
+    background: #ff8800!important;
+    border-color: #ff8800!important;
     color:#fff;
 }

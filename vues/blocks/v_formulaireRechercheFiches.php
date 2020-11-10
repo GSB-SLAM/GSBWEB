@@ -50,7 +50,7 @@
 
     <div class="form-group">
         <button id="btnRecherche" 
-                class="btn btn-primary mb-2 d-none" disabled>
+                class="btn btn-primary mb-2 d-none btnorange" disabled>
             Rechercher
         </button>
     </div>

@@ -140,6 +140,19 @@ class PdoGsb {
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getMoisFichesValidees($idVisiteur) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'select fichefrais.mois as mois '
+                . 'from fichefrais '
+                . 'where fichefrais.idetat="VA" '
+                . 'and fichefrais.idvisiteur=:idVisiteur'
+        );
+        $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+     
     /**
      * Retourne les informations de tous les visiteurs
      * 
@@ -580,6 +593,7 @@ class PdoGsb {
         return (float) $res['total'];
     }
 
+    
     /**
      * Retourne le montant en € à rembourser pour les frais hors forfait
      * 
