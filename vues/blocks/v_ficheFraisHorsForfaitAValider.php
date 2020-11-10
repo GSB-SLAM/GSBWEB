@@ -35,8 +35,17 @@
                         <td> <?php echo $date ?></td>
                         <td> <?php echo $libelle ?></td>
                         <td><?php echo $montant ?></td>
-                        <td><a href="index.php?uc=rechercheFiche&action=suspendreFrais&idFrais=<?php echo $id ?>" 
-                               onclick="return confirm('Voulez-vous vraiment suspendre ce frais?');">Suspendre ce frais</a></td>
+                        <td><a class="btn btn-warning" 
+                               href="index.php?uc=rechercheFiche&action=suspendreFrais&idFrais=<?php echo $id ?>" 
+                               onclick="return confirm('Voulez-vous vraiment suspendre ce frais?');">
+                                Suspendre ce frais
+                            </a>
+                            <a class="btn btn-danger" 
+                               href="index.php?uc=rechercheFiche&action=refuserFrais&idFrais=<?php echo $id ?>" 
+                               onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">
+                                Refuser ce frais
+                            </a>
+                        </td>
                     </tr>
                     <?php
                 }

@@ -11,7 +11,7 @@
  */
 ?>
 <form method="post" 
-      action="index.php?uc=rechercheFiche&action=afficheRecherche"
+      action="index.php?uc=validerFrais&action=afficheRecherche"
       class="form-inline">    
     <div class="form-group form-visit">
         <label for="idVi">Choisir le visiteur :</label>

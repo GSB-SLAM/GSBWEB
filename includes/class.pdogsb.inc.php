@@ -126,7 +126,7 @@ class PdoGsb {
      * un utilisateur donné
      * 
      * @param string $idVisiteur id du visiteur sur lequelle va se porter la recherche
-     * @return tableau associatif
+     * @return tableau associatif contenant le mois sous le format aaaamm
      */
     public function getMoisFichesAValider($idVisiteur) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -139,6 +139,62 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Ajoute la chaine passée en paramètre au début du libéllé 
+     * du frais hors forfait correspondant à l'id passé en paramètre
+     * 
+     * @param string $id de la fiche à mofifier
+     * @param string $chaine à rajouter au début du libellé
+     */
+    public function ajoutLibelleFraisHorsForfait($id, $chaine) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "update lignefraisforfait "
+                . "set libelle=CONCAT(':chaine', libelle) "
+                . "where id=:id"
+        );
+        $requetePrepare->bindParam(':chaine', $chaine, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+    public function validerFiche($id, $mois) {
+        $this->suspendreFraisHorsForfait($id, $mois);
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "update fichefrais "
+                . "set idetat='VA' "
+                . "where idvisiteur=:id "
+                . "and mois=:mois"
+        );
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    private function suspendreFraisHorsForfait($id, $mois){
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "update lignefraishorsForfait "
+                . "set mois=CONVERT(mois, integer)+1 "
+                . "where idvisiteur=:id "
+                . "and mois=:mois "
+                . "and libelle like 'SUSPENDU%'");
+        $requetePrepare->execute();
+    }
+    
+    /**
+     * Récupère tous les visiteurs qui ont au moins une fiche à valider
+     * 
+     * @return un tableau associatif contenant id, nom, prenom des visiteurs
+     */
+//    public function suspendreFraisHorsForfait($idFrais) {
+//        $requetePrepare = PdoGSB::$monPdo->prepare(
+//                'update lignefraishorsforfait '
+//                . 'set mois=CONVERT(mois, integer)+1 '
+//                . 'where id=:id'
+//        );
+//        $requetePrepare->bindValue(':id', $idFrais, PDO::PARAM_STR);
+//        $requetePrepare->execute();
+//    }
 
     /**
      * Retourne les informations de tous les visiteurs
@@ -444,23 +500,8 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-    /**
-     * Suspend le frais hors forfait dont l'id est passé en argument
-     * c'est à dire le reporte au mois suivant 
-     * 
-     * @param string $id du frais
-     * 
-     * @return null
-     */
-    public function suspendreFraisHorsForfait($idFrais) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'update lignefraishorsforfait '
-                . 'set mois=CONVERT(mois, integer)+1 '
-                . 'where id=:id'
-        );
-        $requetePrepare->bindValue(':id', $idFrais, PDO::PARAM_STR);
-        $requetePrepare->execute();
-    }
+
+    
 
     public function getVisiteursAValider() {
         $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -474,7 +515,6 @@ class PdoGsb {
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
-        
     }
 
     /**

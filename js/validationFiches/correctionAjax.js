@@ -14,7 +14,7 @@ function updateFraisForfait(){
         }
         setTimeout(cacheMessage, 5000);
     };
-    xhr.open("post", "index.php?uc=rechercheFiche&action=corrigerFrais", true);
+    xhr.open("post", "index.php?uc=validerFrais&action=corrigerFrais", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     let parametres = "ETP=" + document.getElementById('ETP').value;
     parametres += "&KM=" + document.getElementById('KM').value;

@@ -32,6 +32,7 @@ switch ($action) {
         include 'vues/blocks/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
         include 'vues/blocks/v_totalRemboursement.php';
+        include 'vues/blocks/v_btnValiderFiche.php';
         break;
     case 'dateAjax':
         $id = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
@@ -46,7 +47,8 @@ switch ($action) {
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-        $pdo->suspendreFraisHorsForfait($idFrais);
+        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'SUSPENDU ');
+        //$pdo->suspendreFraisHorsForfait($idFrais);
         $dates = $pdo->getMoisFichesAValider($idVisiteur);
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
@@ -55,6 +57,7 @@ switch ($action) {
         include 'vues/blocks/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
         include 'vues/blocks/v_totalRemboursement.php';
+        include 'vues/blocks/v_btnValiderFiche.php';
         break;
 
     case 'corrigerFrais':
@@ -79,12 +82,17 @@ switch ($action) {
                 ajouterErreur('Les valeurs des frais doivent être numériques');
                 include 'vues/v_erreurs.php';
             }
-            
-            
         } catch (Exception $ex) {
             ajouterErreur("Erreur lors de correction");
             include 'vues/v_erreurs.php';
         }
+        break;
+        
+    case 'validerFiche':
+        $mois = $_SESSION['current']['mois'];
+        $idVisiteur = $_SESSION['current']['id'];
+        $pdo->validerFiche($idVisiteur, $mois);
+        var
 }
 
 
