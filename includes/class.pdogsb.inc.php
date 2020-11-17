@@ -149,9 +149,10 @@ class PdoGsb {
      */
     public function ajoutLibelleFraisHorsForfait($id, $chaine) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-                "update lignefraisforfait "
-                . "set libelle=CONCAT(':chaine', libelle) "
-                . "where id=:id"
+                "update lignefraishorsforfait "
+                . "set libelle=CONCAT(:chaine, libelle) "
+                . "where id=:id "
+                . "and libelle not like CONCAT(:chaine, '%')"
         );
         $requetePrepare->bindParam(':chaine', $chaine, PDO::PARAM_STR);
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);

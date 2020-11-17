@@ -12,6 +12,7 @@ function updateFraisForfait(){
             document.getElementById('succesErreur').innerHTML = xhr.responseText;
             document.getElementById("succesErreur").style.display = "block";
         }
+        //Active la fonction cacheMessage dans 5 secondes
         setTimeout(cacheMessage, 5000);
     };
     xhr.open("post", "index.php?uc=validerFrais&action=corrigerFrais", true);

@@ -19,7 +19,7 @@
 }
 
 .orange {
-    color: #fff;
+    color: #fff !important;
     background-color: #ff8800!important;
 }
 
@@ -51,3 +51,4 @@
     background-color: #ff8800;
     color:#fff;
 }
+

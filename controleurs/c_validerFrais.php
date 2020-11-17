@@ -43,12 +43,27 @@ switch ($action) {
         unset($_SESSION['current']);
         include 'vues/v_validationFicheFrais.php';
         break;
-    case 'suspendreFrais':
+    case 'refuserFrais':
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'SUSPENDU ');
-        //$pdo->suspendreFraisHorsForfait($idFrais);
+        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'REFUSE ');
+        $dates = $pdo->getMoisFichesAValider($idVisiteur);
+        $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        include 'vues/v_validationFicheFrais.php';
+        include 'vues/blocks/v_ficheFraisForfaitAValider.php';
+        include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
+        include 'vues/blocks/v_totalRemboursement.php';
+        include 'vues/blocks/v_btnValiderFiche.php';
+        break;
+    
+    case 'reporterFrais':
+        $mois = $_SESSION['current']['mois'];
+        $idVisiteur = $_SESSION['current']['id'];
+        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'REPORTE ');
         $dates = $pdo->getMoisFichesAValider($idVisiteur);
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
@@ -92,7 +107,6 @@ switch ($action) {
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $pdo->validerFiche($idVisiteur, $mois);
-        var
 }
 
 

@@ -10,7 +10,7 @@
  * GitHub : https://github.com/ALautrette
  */
 ?>
-<div id="succesErreur" style="display: none"></div>
+<div id="succesErreur" >Test</div>
 <?php
 include 'blocks/v_formulaireRechercheFiches.php';
 ?>
