@@ -5,12 +5,20 @@
  */
 
 
-function updateFraisForfait(){
+function updateFraisForfait() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('succesErreur').innerHTML = xhr.responseText;
-            document.getElementById("succesErreur").style.display = "block";
+            console.log(xhr.responseText);
+            if (xhr.responseText == "ErrCor") {
+                document.getElementById("ErrCorr").style.display = "block";
+            } else if (xhr.responseText == "ErrNum") {
+                document.getElementById("ErrNum").style.display = "block";
+            } else {
+                document.getElementById('total').innerHTML = xhr.responseText;
+                document.getElementById("succes").style.display = "block";
+            }
+
         }
         //Active la fonction cacheMessage dans 5 secondes
         setTimeout(cacheMessage, 5000);
@@ -24,14 +32,16 @@ function updateFraisForfait(){
     xhr.send(parametres);
 }
 
-function cacheMessage(){
-    document.getElementById("succesErreur").style.display = "none";
+function cacheMessage() {
+    document.getElementById("succes").style.display = "none";
+    document.getElementById("ErrNum").style.display = "none";
+    document.getElementById("ErrCor").style.display = "none";
 }
 
 function activeBtnRecherche() {
     document.getElementById('btnRecherche').disabled = false;
     document.getElementById('btnRecherche').style.visibility = "visible";
-    
+
 }
 
 let btnCorriger = document.getElementById('btnCorriger');

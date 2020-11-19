@@ -10,7 +10,15 @@
  * GitHub : https://github.com/ALautrette
  */
 ?>
-<div id="succesErreur" >Test</div>
+<div id="succes" style="display: none" class="alert alert-success">
+    Fiche mise à jour avec succès
+</div>
+<div id="ErrNum" style="display: none" class="alert alert-danger">
+    Les valeurs des frais doivent être numériques
+</div>
+<div id="ErrCor" style="display: none" class="alert alert-danger">
+    Erreur lors de la correction
+</div>
 <?php
 include 'blocks/v_formulaireRechercheFiches.php';
 ?>

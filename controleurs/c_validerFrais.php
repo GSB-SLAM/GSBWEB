@@ -58,7 +58,7 @@ switch ($action) {
         include 'vues/blocks/v_totalRemboursement.php';
         include 'vues/blocks/v_btnValiderFiche.php';
         break;
-    
+
     case 'reporterFrais':
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
@@ -75,6 +75,13 @@ switch ($action) {
         include 'vues/blocks/v_btnValiderFiche.php';
         break;
 
+    case 'updateTotal':
+        $mois = $_SESSION['current']['mois'];
+        $idVisiteur = $_SESSION['current']['id'];
+        $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
+        var_dump($montantTotal);
+        echo $montantTotal;
+
     case 'corrigerFrais':
         try {
             $etp = filter_input(INPUT_POST, 'ETP', FILTER_SANITIZE_STRING);
@@ -89,20 +96,20 @@ switch ($action) {
             );
             $mois = $_SESSION['current']['mois'];
             $idVisiteur = $_SESSION['current']['id'];
+
+
             if (lesQteFraisValides($lesFrais)) {
                 $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
-                ajouterSucces("Fiche mise à jour avec succès");
-                include 'vues/v_succes.php';
+                $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
+                echo $montantTotal;
             } else {
-                ajouterErreur('Les valeurs des frais doivent être numériques');
-                include 'vues/v_erreurs.php';
+                echo "ErrNum";
             }
         } catch (Exception $ex) {
-            ajouterErreur("Erreur lors de correction");
-            include 'vues/v_erreurs.php';
+            echo "ErrCor";
         }
         break;
-        
+
     case 'validerFiche':
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
