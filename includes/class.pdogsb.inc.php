@@ -645,8 +645,10 @@ class PdoGsb {
      */
     private function getMontantTotalHorsForfait($id, $mois) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-                'select sum(montant) as total from lignefraishorsforfait '
-                . 'where idvisiteur=:id and mois=:mois'
+                "select sum(montant) as total from lignefraishorsforfait "
+                . "where idvisiteur=:id and mois=:mois "
+                . "and libelle not like 'SUSPENDU%' "
+                . "and libelle not like 'REFUSE%'"
         );
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
         $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
