@@ -24,8 +24,9 @@ $testAction = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $ajax = array(
     "dateAjax",
     "corrigerFrais",
+    "updateTotal",
 );
-if(!in_array($testAction, $ajax)){
+if (!in_array($testAction, $ajax)) {
     require 'vues/v_entete.php';
 }
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
@@ -51,23 +52,20 @@ switch ($uc) {
             include 'controleurs/c_etatFrais.php';
         }
         break;
-    case 'rechercheFrais':
-        if (middleware("comptable")){
+    case 'validerFrais':
+        if (middleware("comptable")) {
             include 'controleurs/c_validerFrais.php';
         }
         break;
     case 'suivreFrais':
-        if (middleware("comptable")){
+        if (middleware("comptable")) {
             include 'controleurs/c_suivreFrais.php';
         }
         break;
     case 'deconnexion':
         include 'controleurs/c_deconnexion.php';
         break;
-    case 'rechercheFiche':
-        if(middleware("comptable")){
-            include 'controleurs/c_rechercheFichesFrais.php';
-        }
-        break;
 }
-require 'vues/v_pied.php';
+if (!in_array($testAction, $ajax)) {
+    require 'vues/v_pied.php';
+}

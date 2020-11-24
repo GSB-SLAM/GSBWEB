@@ -18,7 +18,7 @@
     <h2>
         Gestion des frais<small> -  
             <?php 
-            echo $_SESSION["type"] . " : " .  $_SESSION['prenom'] . ' ' . $_SESSION['nom']
+            echo ucfirst($_SESSION["type"]) . " : " .  $_SESSION['prenom'] . ' ' . $_SESSION['nom']
             ?></small>
     </h2>
 </div>

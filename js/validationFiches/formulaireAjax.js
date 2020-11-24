@@ -24,7 +24,7 @@ function chercheDates() {
                 }
             }
         };
-        xhr.open("post", "index.php?uc=rechercheFiche&action=dateAjax", true);
+        xhr.open("post", "index.php?uc=validerFrais&action=dateAjax", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         let parametres = "idVi=" + document.getElementById('idVi').value;
         xhr.send(parametres);

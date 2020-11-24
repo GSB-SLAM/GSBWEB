@@ -28,9 +28,9 @@
                         Accueil
                     </a>
                 </li>
-                <li <?php if ($uc == 'rechercheFiche') { ?>class="active"<?php }
+                <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php }
                 ?>>
-                    <a href="index.php?uc=rechercheFiche&action=rechercheFiche"
+                    <a href="index.php?uc=validerFrais&action=rechercheFiche"
                        class="texteorange activeorange"> <!-- à modifier -->
                         <span class="glyphicon glyphicon-ok"></span>
                         Valider les fiches de frais

@@ -29,14 +29,6 @@
                 . $visiteur['prenom'] . "</option>";
             }           
             ?>
-            <option value="none">Choisir</option>
-            <?php
-            foreach ($visiteurs as $visiteur) {
-                echo "<option value='" . $visiteur['id']
-                . "'>" . $visiteur['nom'] . " "
-                . $visiteur['prenom'] . "</option>";
-            }
-            ?>
         </select>
     </div>  
     <div class="form-group form-visit" id="retour">

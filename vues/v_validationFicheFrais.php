@@ -10,32 +10,17 @@
  * GitHub : https://github.com/ALautrette
  */
 ?>
-<div id="succesErreur" style="display: none"></div>
+<div id="succes" style="display: none" class="alert alert-success">
+    Fiche mise à jour avec succès
+</div>
+<div id="ErrNum" style="display: none" class="alert alert-danger">
+    Les valeurs des frais doivent être numériques
+</div>
+<div id="ErrCor" style="display: none" class="alert alert-danger">
+    Erreur lors de la correction
+</div>
 <?php
 include 'blocks/v_formulaireRechercheFiches.php';
 ?>
-<!--<div>
-    <div class = "col-md-4">
-        <form method = "post"
-              action = "index.php?uc=rechercheFiche&action=corrigerFrais"
-              role = "form">
-            <fieldset>
-                <div class="form-group" id="fiche">
-
-                </div>
-                <button class="btn btn-success d-none" type="button" 
-                        id="btnCorriger">Corriger</button>
-                <button class="btn btn-danger d-none" id="btnReset"
-                        type="reset">Réinitialiser</button>
-            </fieldset>
-        </form>
-    </div>
-</div>-->
-
-
-
-
 
 <script type="text/javascript" src="js/validationFiches/formulaireAjax.js"></script>
-<!--<script type="text/javascript" src="js/validationFiches/fonctions.js"></script>
-<script type="text/javascript" src="js/validationFiches/eventListeners.js"></script>-->

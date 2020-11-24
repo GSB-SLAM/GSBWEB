@@ -12,8 +12,8 @@
 ?>
 <hr>
 <div class="row">
-    <div class="panel panel-info">
-        <div class="panel-heading">Descriptif des éléments hors forfait</div>
+    <div class="panel panel-info borderorange">
+        <div class="panel-heading borderorange orange">Descriptif des éléments hors forfait</div>
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
@@ -35,8 +35,27 @@
                         <td> <?php echo $date ?></td>
                         <td> <?php echo $libelle ?></td>
                         <td><?php echo $montant ?></td>
-                        <td><a href="index.php?uc=rechercheFiche&action=suspendreFrais&idFrais=<?php echo $id ?>" 
-                               onclick="return confirm('Voulez-vous vraiment suspendre ce frais?');">Suspendre ce frais</a></td>
+                        <td><!-- -->
+                            <?php if (!estDejaRefuseOuReporte($libelle)) { ?>
+                                <a class="btn btn-danger" 
+                                   href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>" 
+                                   onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">
+                                    Refuser
+                                </a>
+                                <a class="btn btn-warning" 
+                                   href="index.php?uc=validerFrais&action=reporterFrais&idFrais=<?php echo $id ?>" 
+                                   onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">
+                                    Reporter
+                                </a>
+                            <?php } else { ?>
+                                <p class="btn btn-danger" disabled>
+                                    Refuser
+                                </p>
+                                <p class="btn btn-warning" disabled>
+                                    Reporter
+                                </p>
+                            <?php } ?>
+                        </td>
                     </tr>
                     <?php
                 }
