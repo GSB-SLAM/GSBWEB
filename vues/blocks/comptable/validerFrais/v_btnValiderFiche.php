@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 ?>
-<div class="row">
+<div class="row mb-40">
     <a class="btn btn-success" 
        href="index.php?uc=validerFrais&action=validerFiche"
        onclick="return confirm('Voulez-vous vraiment accepter cette fiche?');">

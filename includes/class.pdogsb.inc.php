@@ -139,13 +139,15 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
-    /**Retourne un tableau associatif contenant le mois de toutes les fiches 
+
+    /*     * Retourne un tableau associatif contenant le mois de toutes les fiches 
      * qui ont été préalablement validées, soit qui sont validées, pour un 
      * utilisateur donné 
      * @param string $idVisiteur du visiteur sur lequel va se porter la 
      * recherche
      * @return tableau associatif de mois sous la forme mmaaaa
      */
+
     public function getMoisFichesValidees($idVisiteur) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 'select fichefrais.mois as mois '
@@ -157,8 +159,7 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-     
+
     /**
      * Ajoute la chaine passée en paramètre au début du libéllé 
      * du frais hors forfait correspondant à l'id passé en paramètre
@@ -178,24 +179,34 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-    public function validerFiche($id, $mois) {
-        $this->reporterFraisHorsForfait($id, $mois);
+    /**
+     * Récupère le nom et le prénom d'un utilisateur
+     * 
+     * @param string $id du visiteur 
+     * @return tableau associatif
+     */
+    public function getNomPrenomVisiteur($id) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-                "update fichefrais "
-                . "set idetat='VA' "
-                . "where idvisiteur=:id "
-                . "and mois=:mois"
+                "select nom, prenom "
+                . "from visiteur "
+                . "where id=:id"
         );
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+        return $requetePrepare->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function validerFiche($id, $mois) {
+        $this->reporterFraisHorsForfait($id, $mois);
+        $this->majEtatFicheFrais($id, $mois, 'VA');
+        //Set le montant total validé
     }
 
     private function reporterFraisHorsForfait($id, $mois) {
-        //A améliorer pour enlever REPORTE au début du libelle
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "update lignefraishorsForfait "
-                . "set mois=CONVERT(mois, integer)+1 "
+                . "set mois=CONVERT(mois, integer)+1, "
+                . "libelle = substring(libelle, 9) "
                 . "where idvisiteur=:id "
                 . "and mois=:mois "
                 . "and libelle like 'REPORTE%'");
@@ -203,21 +214,6 @@ class PdoGsb {
         $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-
-    /**
-     * Récupère tous les visiteurs qui ont au moins une fiche à valider
-     * 
-     * @return un tableau associatif contenant id, nom, prenom des visiteurs
-     */
-//    public function suspendreFraisHorsForfait($idFrais) {
-//        $requetePrepare = PdoGSB::$monPdo->prepare(
-//                'update lignefraishorsforfait '
-//                . 'set mois=CONVERT(mois, integer)+1 '
-//                . 'where id=:id'
-//        );
-//        $requetePrepare->bindValue(':id', $idFrais, PDO::PARAM_STR);
-//        $requetePrepare->execute();
-//    }
 
     /**
      * Retourne les informations de tous les visiteurs
@@ -523,6 +519,12 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
+    /**
+     * Retourne l'id, le nom et le prénom des visiteurs qui ont au moins 
+     * une fiche à valider
+     * 
+     * @return tableau associatif
+     */
     public function getVisiteursAValider() {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "select DISTINCT visiteur.id as id, "
@@ -536,6 +538,7 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /**
      * Retourne les ID des visiteurs pour lesquelles les visiteurs
      * sélectionnés ont des fiches de frais à l'état validée
@@ -554,10 +557,7 @@ class PdoGsb {
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
-       
     }
-
-
 
     /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
@@ -677,7 +677,6 @@ class PdoGsb {
         return (float) $res['total'];
     }
 
-    
     /**
      * Retourne le montant en € à rembourser pour les frais hors forfait
      * 

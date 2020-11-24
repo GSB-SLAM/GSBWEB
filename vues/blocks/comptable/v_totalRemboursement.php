@@ -11,7 +11,7 @@
  */
 ?>
 <div class="row">
-    <p>Montant total du remboursement :  
+    <h3>Montant total du remboursement :  
         <span id="total"><?php echo $montantTotal ?></span>€
-    </p>
+    </h3>
 </div>
