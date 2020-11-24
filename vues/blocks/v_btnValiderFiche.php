@@ -7,7 +7,7 @@
 ?>
 <div class="row">
     <a class="btn btn-success" 
-       href="index.php?uc=rechercheFiche&action=validerFiche"
+       href="index.php?uc=validerFrais&action=validerFiche"
        onclick="return confirm('Voulez-vous vraiment accepter cette fiche?');">
         Valider la fiche
     </a>

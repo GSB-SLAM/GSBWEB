@@ -79,7 +79,6 @@ switch ($action) {
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
-        var_dump($montantTotal);
         echo $montantTotal;
 
     case 'corrigerFrais':
@@ -113,7 +112,9 @@ switch ($action) {
     case 'validerFiche':
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
+        var_dump($mois, $idVisiteur);
         $pdo->validerFiche($idVisiteur, $mois);
+        //Ajouter la vue ou redirection
 }
 
 

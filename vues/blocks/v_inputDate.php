@@ -21,7 +21,8 @@
                 if(isset($_SESSION['current']) && $_SESSION['current']['mois'] == $date['mois']){
                     $selected = "selected";
                 }
-            echo "<option value='" . $date['mois'] . "'>" . dateBDVersAffichage($date['mois'])
+            echo "<option value='" . $date['mois'] . "'" . $selected .">" 
+                    . dateBDVersAffichage($date['mois'])
             . "</option>";
         }
     }

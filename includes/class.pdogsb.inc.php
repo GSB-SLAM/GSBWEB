@@ -160,7 +160,7 @@ class PdoGsb {
     }
 
     public function validerFiche($id, $mois) {
-        $this->suspendreFraisHorsForfait($id, $mois);
+        $this->reporterFraisHorsForfait($id, $mois);
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "update fichefrais "
                 . "set idetat='VA' "
@@ -171,17 +171,20 @@ class PdoGsb {
         $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    
-    private function suspendreFraisHorsForfait($id, $mois){
+
+    private function reporterFraisHorsForfait($id, $mois) {
+        //A améliorer pour enlever REPORTE au début du libelle
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "update lignefraishorsForfait "
                 . "set mois=CONVERT(mois, integer)+1 "
                 . "where idvisiteur=:id "
                 . "and mois=:mois "
-                . "and libelle like 'SUSPENDU%'");
+                . "and libelle like 'REPORTE%'");
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    
+
     /**
      * Récupère tous les visiteurs qui ont au moins une fiche à valider
      * 
@@ -501,9 +504,6 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-
-    
-
     public function getVisiteursAValider() {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "select DISTINCT visiteur.id as id, "
@@ -647,7 +647,7 @@ class PdoGsb {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "select sum(montant) as total from lignefraishorsforfait "
                 . "where idvisiteur=:id and mois=:mois "
-                . "and libelle not like 'SUSPENDU%' "
+                . "and libelle not like 'REPORTE%' "
                 . "and libelle not like 'REFUSE%'"
         );
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
