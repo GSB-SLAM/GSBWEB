@@ -38,7 +38,7 @@
                 </li>
                 <li <?php if ($uc == 'suivreFrais') { ?>class="active"<?php }
                 ?>>
-                    <a href="index.php?uc=etatFrais&action=selectionnerMois" 
+                    <a href="index.php?uc=suivreFrais&action=rechercheFiche" 
                        class="texteorange activeorange"> <!-- à modifier -->
                         <span class="glyphicon glyphicon-euro"></span>
                         Suivre le paiement des fiches de frais

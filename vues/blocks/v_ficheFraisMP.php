@@ -74,10 +74,10 @@
         ?>
     </table>
 </div>
-<button class="btn btn-success" type="button" href="index.php?uc=rechercheFiche&
-        action=afficherFiche&idVisiteur" 
+<button class="btn btn-success" type="button" 
     id="btnMettre-en-Paiement">Mettre en Paiement</button>
-<button class="btn btn-danger" type="reset" 
+<button class="btn btn-danger" type="reset" href="index.php?uc=rechercheFiche&
+        action=afficherFiche&idVisiteur=<?php echo $idVisiteur ?>& "
     id="btnRedirection">Corriger</button>
                     
                 
