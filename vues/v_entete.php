@@ -32,9 +32,9 @@
             $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
             if ($estConnecte) {
                 if($_SESSION["type"] == "visiteur"){
-                        include 'blocks/v_enteteVisiteur.php';
+                        include 'blocks/visiteur/v_enteteVisiteur.php';
                     } else if($_SESSION["type"] == "comptable"){
-                        include 'blocks/v_enteteComptable.php';
+                        include 'blocks/comptable/v_enteteComptable.php';
                     }
             } else {
                 ?>   

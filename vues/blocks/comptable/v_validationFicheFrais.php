@@ -20,7 +20,6 @@
     Erreur lors de la correction
 </div>
 <?php
-include 'blocks/v_formulaireRechercheFiches.php';
+include 'v_formulaireRechercheFiches.php';
 ?>
 
-<script type="text/javascript" src="js/validationFiches/formulaireAjax.js"></script>

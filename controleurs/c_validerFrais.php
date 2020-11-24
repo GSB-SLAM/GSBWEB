@@ -28,20 +28,20 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/v_validationFicheFrais.php';
-        include 'vues/blocks/v_ficheFraisForfaitAValider.php';
-        include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
-        include 'vues/blocks/v_totalRemboursement.php';
-        include 'vues/blocks/v_btnValiderFiche.php';
+        include 'vues/blocks/comptable/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
+        include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
+        include 'vues/blocks/comptable/v_totalRemboursement.php';
+        include 'vues/blocks/comptable/validerFrais/v_btnValiderFiche.php';
         break;
     case 'dateAjax':
         $id = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
         $dates = $pdo->getMoisFichesAValider($id);
-        include 'vues/blocks/v_inputDate.php';
+        include 'vues/blocks/comptable/v_inputDate.php';
         break;
     case 'rechercheFiche':
         unset($_SESSION['current']);
-        include 'vues/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/v_validationFicheFrais.php';
         break;
     case 'refuserFrais':
         $mois = $_SESSION['current']['mois'];
@@ -52,11 +52,11 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/v_validationFicheFrais.php';
-        include 'vues/blocks/v_ficheFraisForfaitAValider.php';
-        include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
-        include 'vues/blocks/v_totalRemboursement.php';
-        include 'vues/blocks/v_btnValiderFiche.php';
+        include 'vues/blocks/validerFrais/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
+        include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
+        include 'vues/blocks/comptable/v_totalRemboursement.php';
+        include 'vues/blocks/comptable/validerFrais/v_btnValiderFiche.php';
         break;
 
     case 'reporterFrais':
@@ -68,11 +68,11 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/v_validationFicheFrais.php';
-        include 'vues/blocks/v_ficheFraisForfaitAValider.php';
-        include 'vues/blocks/v_ficheFraisHorsForfaitAValider.php';
-        include 'vues/blocks/v_totalRemboursement.php';
-        include 'vues/blocks/v_btnValiderFiche.php';
+        include 'vues/blocks/validerFrais/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
+        include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
+        include 'vues/blocks/comptable/v_totalRemboursement.php';
+        include 'vues/blocks/comptable/validerFrais/v_btnValiderFiche.php';
         break;
 
     case 'updateTotal':

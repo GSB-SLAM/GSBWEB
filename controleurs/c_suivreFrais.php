@@ -27,19 +27,18 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/v_validationFicheFrais.php';
-        include 'vues/blocks/v_ficheFraisForfaitMP.php';
-        include 'vues/blocks/v_ficheFraisHorsForfaitMP.php';
-        include 'vues/blocks/v_totalRemboursement.php';
+        include 'vues/blocks/comptable/v_formulaireRechercheFiches.php';
+        include 'vues/blocks/comptable/suivreFrais/v_ficheFraisMP.php';
+        include 'vues/blocks/comptable/v_totalRemboursement.php';
         break;
     case 'dateAjax':
         $id = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
         $dates = $pdo->getMoisFichesAValider($id);
-        include 'vues/blocks/v_inputDate.php';
+        include 'vues/blocks/comptable/v_inputDate.php';
         break;
     case 'rechercheFiche':
         unset($_SESSION['current']);
-        include 'vues/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/v_formulaireRechercheFiches.php';
         break;
     case 'MiseEnPaiementFiche':
 

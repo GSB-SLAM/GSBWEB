@@ -36,9 +36,9 @@
                     <div class="col-xs-12 col-md-12">
                         <?php
                     if($_SESSION["type"] == "visiteur"){
-                        include 'blocks/v_navigationVisiteur.html';
+                        include 'blocks/visiteur/v_navigationVisiteur.html';
                     } else if($_SESSION["type"] == "comptable"){
-                        include 'blocks/v_navigationComptable.html';
+                        include 'blocks/comptable/v_navigationComptable.html';
                     }
                     ?>                        
                     </div>
