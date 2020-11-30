@@ -52,7 +52,7 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/blocks/validerFrais/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/v_validationFicheFrais.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
         include 'vues/blocks/comptable/v_totalRemboursement.php';
