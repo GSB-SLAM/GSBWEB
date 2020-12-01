@@ -1,5 +1,4 @@
 <?php
-
 /*
  * 
  * 
@@ -28,13 +27,14 @@
  */
 ?>
 <hr>
-<div class="panel panel-info borderorange">
+<div class="panel panel-info borderorange row">
     <div class="panel-heading borderorange orange">Eléments forfaitisés</div>
     <table class="table table-bordered table-responsive">
         <tr>
             <?php
             foreach ($lesFraisForfait as $unFraisForfait) {
-                $libelle = $unFraisForfait['libelle']; ?>
+                $libelle = $unFraisForfait['libelle'];
+                ?>
                 <th> <?php echo htmlspecialchars($libelle) ?></th>
                 <?php
             }
@@ -43,7 +43,8 @@
         <tr>
             <?php
             foreach ($lesFraisForfait as $unFraisForfait) {
-                $quantite = $unFraisForfait['quantite']; ?>
+                $quantite = $unFraisForfait['quantite'];
+                ?>
                 <td class="qteForfait"><?php echo $quantite ?> </td>
                 <?php
             }
@@ -51,7 +52,8 @@
         </tr>
     </table>
 </div>
-<div class="panel panel-info borderorange">
+<hr>
+<div class="panel panel-info borderorange row">
     <div class="panel-heading borderorange orange">Descriptif des éléments hors forfait</div>
     <table class="table table-bordered table-responsive">
         <tr>
@@ -63,7 +65,8 @@
         foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
             $date = $unFraisHorsForfait['date'];
             $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-            $montant = $unFraisHorsForfait['montant']; ?>
+            $montant = $unFraisHorsForfait['montant'];
+            ?>
             <tr>
                 <td><?php echo $date ?></td>
                 <td><?php echo $libelle ?></td>
@@ -74,11 +77,16 @@
         ?>
     </table>
 </div>
-<a class="btn btn-success" type="button" href="index.php?uc=suivreFrais&
-        action=miseEnPaiementFiche" id="btnMettre-en-Paiement" 
-        onclick="return confirm('Voulez-vous vraiment mettre en paiement cette\n\
- fiche?');">Mettre en Paiement</a>
+<div class="row">
+<p> Statut : <?= "$leStatut" ?></p>
+</div>
+<?php if ($leStatut == "Validée") { ?>
+    <a class="btn btn-success" type="button" href="index.php?uc=suivreFrais&
+       action=miseEnPaiementFiche" id="btnMettre-en-Paiement" 
+       onclick="return confirm('Voulez-vous vraiment mettre en paiement cette\n\
+     fiche?');">Mettre en Paiement</a>
+<?php } ?>
                     
-    
-                
-                
+
+
+

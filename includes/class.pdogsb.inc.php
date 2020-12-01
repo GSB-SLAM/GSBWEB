@@ -146,11 +146,11 @@ class PdoGsb {
      * recherche
      * @return tableau associatif de mois sous la forme mmaaaa
      */
-    public function getMoisFichesValidees($idVisiteur) {
+    public function getMoisFichesValideesEtMiseEnPaiement($idVisiteur) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 'select fichefrais.mois as mois '
                 . 'from fichefrais '
-                . 'where fichefrais.idetat="VA" '
+                . 'where (fichefrais.idetat="VA" or fichefrais.idetat="MP")'
                 . 'and fichefrais.idvisiteur=:idVisiteur'
         );
         $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -176,6 +176,23 @@ class PdoGsb {
         $requetePrepare->bindParam(':chaine', $chaine, PDO::PARAM_STR);
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+    
+/**
+     * Récupère le nom et le prénom d'un utilisateur
+     * 
+     * @param string $id du visiteur 
+     * @return tableau associatif
+     */
+    public function getNomPrenomVisiteur($id) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "select nom, prenom "
+                . "from visiteur "
+                . "where id=:id"
+        );
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch(PDO::FETCH_ASSOC);
     }
     
     public function validerFiche($id, $mois) {
@@ -538,11 +555,11 @@ class PdoGsb {
     }
     /**
      * Retourne les ID des visiteurs pour lesquelles les visiteurs
-     * sélectionnés ont des fiches de frais à l'état validée
+     * sélectionnés ont des fiches de frais à l'état validée ou Mise en Paiement
      * 
      * @return tableau associatif d'id des visiteurs
      */
-    public function getVisiteursValidee() {
+    public function getVisiteursValideeEtMiseEnPaiement() {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "select DISTINCT visiteur.id as id, "
                 . "visiteur.nom as nom, "
@@ -550,7 +567,7 @@ class PdoGsb {
                 . "from visiteur "
                 . "inner join fichefrais "
                 . "on visiteur.id = fichefrais.idvisiteur "
-                . "where fichefrais.idetat='VA'"
+                . "where fichefrais.idetat='VA' or fichefrais.idetat='MP'"
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
@@ -617,7 +634,27 @@ class PdoGsb {
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
     }
-
+    /**
+     * Retourne le libelleEtat de la fiche du visiteur passé en paramètre en 
+     * fonction du mois également passé en paramètre
+     * @param type $idVisiteur
+     * @param type $mois
+     * @return libelleEtat
+     */
+    public function getEtatFiche($idVisiteur, $mois){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT etat.libelle as libelleEtat '
+                . 'FROM fichefrais INNER JOIN etat '
+                . 'ON fichefrais.idetat = etat.id '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
+                );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        return $laLigne['libelleEtat'];
+    }
     /**
      * Modifie l'état et la date de modification d'une fiche de frais.
      * Modifie le champ idEtat et met la date de modif à aujourd'hui.
