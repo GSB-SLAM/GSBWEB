@@ -197,14 +197,13 @@ class PdoGsb {
     }
 
     /**
-     * Passe la fiche à l'état validé, reporte les frais à reporter et met à 
+     * Passe la fiche à l'état validé et met à 
      * jour tout ce qu'il faut mettre à jour
      * 
      * @param string $id du visiteur
      * @param string $mois de la fiche au format aaaamm
      */
     public function validerFiche($id, $mois) {
-        $this->reporterFraisHorsForfait($id, $mois);
         $this->majEtatFicheFrais($id, $mois, 'VA');
         $this->setMontantValide($id, $mois);
     }
