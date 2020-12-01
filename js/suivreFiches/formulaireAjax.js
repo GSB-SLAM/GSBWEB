@@ -23,8 +23,9 @@ function chercheDates() {
                     document.getElementById("btnRecherche").disabled = false;
                 }
             }
-        };   
-        xhr.open("post", "index.php?uc=validerFrais&action=dateAjax", true);
+        };
+        
+        xhr.open("post", "index.php?uc=suivreFrais&action=dateAjax", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         let parametres = "idVi=" + document.getElementById('idVi').value;
         xhr.send(parametres);
@@ -33,3 +34,11 @@ function chercheDates() {
 
 let inputVi = document.getElementById('idVi');
 inputVi.addEventListener("change", chercheDates, false);
+
+function activeBtnRecherche() {
+    document.getElementById('btnRecherche').disabled = false;
+    document.getElementById('btnRecherche').style.visibility = "visible";
+
+}
+
+document.getElementById('selectDate').addEventListener("change", activeBtnRecherche, false);

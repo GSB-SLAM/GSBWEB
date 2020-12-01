@@ -33,26 +33,24 @@ switch ($action) {
         break;
     case 'dateAjax':
         $id = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
-        $dates = $pdo->getMoisFichesAValider($id);
+        $dates = $pdo->getMoisFichesValidees($id);
         include 'vues/blocks/comptable/v_inputDate.php';
         break;
     case 'rechercheFiche':
         unset($_SESSION['current']);
         include 'vues/blocks/comptable/v_formulaireRechercheFiches.php';
         break;
-    case 'MiseEnPaiementFiche':
-
+    case 'miseEnPaiementFiche':
         $idVisiteur = $_SESSION['current']['id'];
         $mois = $_SESSION['current']['mois'];
-        $etat = $_SESSION['current']['etat'];
-        $pdo->majEtatFicheFrais($idVisiteur, $mois, $etat);
-
+        $pdo->majEtatFicheFrais($idVisiteur, $mois,'MP');
+        
 
 
 
         break;
-    case 'Corriger':
-
+    case 'corriger':
+        
 
 
 

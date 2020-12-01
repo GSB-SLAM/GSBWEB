@@ -28,8 +28,8 @@
  */
 ?>
 <hr>
-<div class="panel panel-info">
-    <div class="panel-heading">Eléments forfaitisés</div>
+<div class="panel panel-info borderorange">
+    <div class="panel-heading borderorange orange">Eléments forfaitisés</div>
     <table class="table table-bordered table-responsive">
         <tr>
             <?php
@@ -51,8 +51,8 @@
         </tr>
     </table>
 </div>
-<div class="panel panel-info">
-    <div class="panel-heading">Descriptif des éléments hors forfait</div>
+<div class="panel panel-info borderorange">
+    <div class="panel-heading borderorange orange">Descriptif des éléments hors forfait</div>
     <table class="table table-bordered table-responsive">
         <tr>
             <th class="date">Date</th>
@@ -74,11 +74,13 @@
         ?>
     </table>
 </div>
-<button class="btn btn-success" type="button" 
-    id="btnMettre-en-Paiement">Mettre en Paiement</button>
-<button class="btn btn-danger" type="reset" href="index.php?uc=rechercheFiche&
+<button class="btn btn-success" type="button" href="index.php?uc=suivreFrais&
+        action=miseEnPaiementFiche" id="btnMettre-en-Paiement">Mettre en
+        Paiement</button>
+<button class="btn btn-warning" type="reset" href="index.php?uc=corriger&
         action=afficherFiche&idVisiteur=<?php echo $idVisiteur ?>& "
     id="btnRedirection">Corriger</button>
                     
+    
                 
                 

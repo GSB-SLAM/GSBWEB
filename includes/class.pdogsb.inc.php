@@ -177,7 +177,7 @@ class PdoGsb {
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-
+    
     public function validerFiche($id, $mois) {
         $this->reporterFraisHorsForfait($id, $mois);
         $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -190,7 +190,7 @@ class PdoGsb {
         $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-
+    
     private function reporterFraisHorsForfait($id, $mois) {
         //A améliorer pour enlever REPORTE au début du libelle
         $requetePrepare = PdoGsb::$monPdo->prepare(

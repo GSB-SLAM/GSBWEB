@@ -49,6 +49,9 @@
 
 
 </form>
-
+<?php if ($uc== 'validerFrais'){?>
 <script type="text/javascript" src="js/validationFiches/formulaireAjax.js"></script>
+<?php } else if($uc=='suivreFrais') {?>
+<script type="text/javascript" src="js/suivreFiches/formulaireAjax.js"></script>
+<?php } ?>
 
