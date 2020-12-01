@@ -15,14 +15,12 @@ $visiteurs = $pdo->getVisiteursValidee();
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
     case 'afficheRecherche':
-
         $idVisiteur = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);
         $mois = filter_input(INPUT_POST, 'selectDate', FILTER_SANITIZE_STRING);
         $_SESSION['current'] = array(
             'id' => $idVisiteur,
             'mois' => $mois,
         );
-
         $dates = $pdo->getMoisFichesValidees($idVisiteur);
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
@@ -44,18 +42,8 @@ switch ($action) {
         $idVisiteur = $_SESSION['current']['id'];
         $mois = $_SESSION['current']['mois'];
         $pdo->majEtatFicheFrais($idVisiteur, $mois,'MP');
-        
-
-
-
-        break;
-    case 'corriger':
-        
-
-
-
-
-
+        $nom->getNomPrenomVisiteur($idVisiteur);
+        include 'vues/blocks/comptable/suivreFrais/v_ficheMiseEnPaiement';
         break;
 }
 

@@ -112,7 +112,6 @@ switch ($action) {
     case 'validerFiche':
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
-        var_dump($mois, $idVisiteur);
         $pdo->validerFiche($idVisiteur, $mois);
         //Ajouter la vue ou redirection
 }

@@ -74,12 +74,10 @@
         ?>
     </table>
 </div>
-<button class="btn btn-success" type="button" href="index.php?uc=suivreFrais&
-        action=miseEnPaiementFiche" id="btnMettre-en-Paiement">Mettre en
-        Paiement</button>
-<button class="btn btn-warning" type="reset" href="index.php?uc=corriger&
-        action=afficherFiche&idVisiteur=<?php echo $idVisiteur ?>& "
-    id="btnRedirection">Corriger</button>
+<a class="btn btn-success" type="button" href="index.php?uc=suivreFrais&
+        action=miseEnPaiementFiche" id="btnMettre-en-Paiement" 
+        onclick="return confirm('Voulez-vous vraiment mettre en paiement cette\n\
+ fiche?');">Mettre en Paiement</a>
                     
     
                 
