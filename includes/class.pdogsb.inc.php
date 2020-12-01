@@ -196,12 +196,26 @@ class PdoGsb {
         return $requetePrepare->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Passe la fiche à l'état validé, reporte les frais à reporter et met à 
+     * jour tout ce qu'il faut mettre à jour
+     * 
+     * @param string $id du visiteur
+     * @param string $mois de la fiche au format aaaamm
+     */
     public function validerFiche($id, $mois) {
         $this->reporterFraisHorsForfait($id, $mois);
         $this->majEtatFicheFrais($id, $mois, 'VA');
-        //Set le montant total validé
+        $this->setMontantValide($id, $mois);
     }
 
+    /**
+     * Reporte d'un mois les frais qui ont 'REPORTE' au début de leur libellé
+     * puis retire 'REPORTE' du libelle pour un visiteur et un mois passé en paramètre
+     * 
+     * @param string $id du visiteur
+     * @param string $mois de la fiche
+     */
     private function reporterFraisHorsForfait($id, $mois) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "update lignefraishorsForfait "
@@ -213,6 +227,47 @@ class PdoGsb {
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
         $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+
+    /**
+     * Reporte au moins suivant le frais hors forfait correspondant à l'id du 
+     * frais passé en paramètre
+     * 
+     * @param string $idFrais
+     * @param string $moisSuivant 
+     * 
+     * @return null
+     */
+    public function reporterUnFraisHorsForfait($idFrais, $moisSuivant) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "update lignefraishorsForfait "
+                . "set mois=:mois "
+                . "where id=:idFrais"
+        );
+        $requetePrepare->bindParam(":idFrais", $idFrais, PDO::PARAM_INT);
+        $requetePrepare->bindParam(":mois", $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+    /**
+     * Met à jour la colonne montantValidee de la fiche du visiteur et du mois 
+     * passé en paramètre
+     * 
+     * @param string $idVisiteur
+     * @param string $mois
+     */
+    private function setMontantValide($idVisiteur, $mois) {
+        $montant = $this->getMontantTotal($idVisiteur, $mois);
+        $requete = PdoGsb::$monPdo->prepare(
+                "update fichefrais "
+                . "set montantvalide=:montant "
+                . "where idvisiteur=:id and "
+                . "mois=:mois"
+        );
+        $requete->bindParam(':montant', $montant);
+        $requete->bindParam(':id', $idVisiteur, PDO::PARAM_STR);
+        $requete->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requete->execute();
     }
 
     /**
@@ -646,7 +701,7 @@ class PdoGsb {
      * 
      * @param string $id du visiteur 
      * @param string $mois de la fiche
-     * @return le total à rembourser (float)
+     * @return {float} le total à rembourser
      */
     public function getMontantTotal($id, $mois) {
         $montantForfait = $this->getMontantTotalForfait($id, $mois);
