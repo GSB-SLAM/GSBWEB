@@ -34,8 +34,8 @@
                     <tr>
                         <td> <?php echo $date ?></td>
                         <td> <?php echo $libelle ?></td>
-                        <td><?php echo $montant ?></td>
-                        <td><!-- -->
+                        <td><?= $montant ?></td>
+                        <td>
                             <?php if (!estDejaRefuseOuReporte($libelle)) { ?>
                                 <a class="btn btn-danger" 
                                    href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>" 
