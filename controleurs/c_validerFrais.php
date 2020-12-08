@@ -11,7 +11,6 @@
  * GitHub : https://github.com/ALautrette
  */
 
-//$visiteurs = $pdo->getIdNomPrenomVisiteurs();
 $visiteurs = $pdo->getVisiteursAValider();
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
