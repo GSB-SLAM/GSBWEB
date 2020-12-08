@@ -271,3 +271,22 @@ function nbErreurs() {
         return count($_REQUEST['erreurs']);
     }
 }
+
+/**
+ * Retourne le mois suivant du mois passé en paramètre
+ * @param string $mois au format aaaamm
+ * 
+ * @return int date au format aaaamm
+ */
+function getMoisSuivant($mois){
+    $annee = substr($mois, 0, 4);
+    $month = substr($mois, 4);
+    if($month == "12"){
+        $month = "01";
+        $annee = (string)((int)$annee+1);
+    }
+    else{
+        $month = (string)((int)$month+1);
+    }
+    return $annee . $month;
+}

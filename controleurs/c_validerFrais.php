@@ -11,7 +11,6 @@
  * GitHub : https://github.com/ALautrette
  */
 
-//$visiteurs = $pdo->getIdNomPrenomVisiteurs();
 $visiteurs = $pdo->getVisiteursAValider();
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
@@ -41,7 +40,13 @@ switch ($action) {
         break;
     case 'rechercheFiche':
         unset($_SESSION['current']);
-        include 'vues/blocks/comptable/v_validationFicheFrais.php';
+        if (empty($visiteurs)) {
+            ajouterErreur("Il n'y a aucune fiche de frais à valider");
+            include 'vues/v_erreurs.php';
+        } else {
+            include 'vues/blocks/comptable/v_validationFicheFrais.php';
+        }
+
         break;
     case 'refuserFrais':
         $mois = $_SESSION['current']['mois'];
@@ -52,7 +57,7 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/blocks/validerFrais/v_validationFicheFrais.php';
+        include 'vues/blocks/comptable/v_validationFicheFrais.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
         include 'vues/blocks/comptable/v_totalRemboursement.php';
@@ -63,12 +68,18 @@ switch ($action) {
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'REPORTE ');
+        $moisSuivant = getMoisSuivant($mois);
+        if ($pdo->estPremierFraisMois($idVisiteur, $moisSuivant)) {
+            $pdo->creeNouvellesLignesFrais($idVisiteur, $moisSuivant);
+        }
+        $pdo->reporterUnFraisHorsForfait($idFrais, $moisSuivant);
         $dates = $pdo->getMoisFichesAValider($idVisiteur);
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        include 'vues/blocks/validerFrais/v_validationFicheFrais.php';
+        ajouterSucces("Frais reporté avec succès");
+        include 'vues/v_succes.php';
+        include 'vues/blocks/comptable/v_validationFicheFrais.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
         include 'vues/blocks/comptable/v_totalRemboursement.php';
@@ -113,7 +124,8 @@ switch ($action) {
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $pdo->validerFiche($idVisiteur, $mois);
-        //Ajouter la vue ou redirection
+        $nom = $pdo->getNomPrenomVisiteur($idVisiteur);
+        include 'vues/blocks/comptable/validerFrais/v_ficheValidée.php';
 }
 
 

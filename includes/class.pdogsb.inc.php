@@ -139,7 +139,8 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
-    /**Retourne un tableau associatif contenant le mois de toutes les fiches 
+
+    /*     * Retourne un tableau associatif contenant le mois de toutes les fiches 
      * qui ont été préalablement validées, soit qui sont validées, pour un 
      * utilisateur donné 
      * @param string $idVisiteur du visiteur sur lequel va se porter la 
@@ -157,8 +158,7 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-     
+
     /**
      * Ajoute la chaine passée en paramètre au début du libéllé 
      * du frais hors forfait correspondant à l'id passé en paramètre
@@ -198,21 +198,39 @@ class PdoGsb {
     public function validerFiche($id, $mois) {
         $this->reporterFraisHorsForfait($id, $mois);
         $requetePrepare = PdoGsb::$monPdo->prepare(
-                "update fichefrais "
-                . "set idetat='VA' "
-                . "where idvisiteur=:id "
-                . "and mois=:mois"
+                "select nom, prenom "
+                . "from visiteur "
+                . "where id=:id"
         );
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+        return $requetePrepare->fetch(PDO::FETCH_ASSOC);
     }
-    
+
+    /**
+     * Passe la fiche à l'état validé et met à 
+     * jour tout ce qu'il faut mettre à jour
+     * 
+     * @param string $id du visiteur
+     * @param string $mois de la fiche au format aaaamm
+     */
+    public function validerFiche($id, $mois) {
+        $this->majEtatFicheFrais($id, $mois, 'VA');
+        $this->setMontantValide($id, $mois);
+    }
+
+    /**
+     * Reporte d'un mois les frais qui ont 'REPORTE' au début de leur libellé
+     * puis retire 'REPORTE' du libelle pour un visiteur et un mois passé en paramètre
+     * 
+     * @param string $id du visiteur
+     * @param string $mois de la fiche
+     */
     private function reporterFraisHorsForfait($id, $mois) {
-        //A améliorer pour enlever REPORTE au début du libelle
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "update lignefraishorsForfait "
-                . "set mois=CONVERT(mois, integer)+1 "
+                . "set mois=CONVERT(mois, integer)+1, "
+                . "libelle = substring(libelle, 9) "
                 . "where idvisiteur=:id "
                 . "and mois=:mois "
                 . "and libelle like 'REPORTE%'");
@@ -222,19 +240,45 @@ class PdoGsb {
     }
 
     /**
-     * Récupère tous les visiteurs qui ont au moins une fiche à valider
+     * Reporte au moins suivant le frais hors forfait correspondant à l'id du 
+     * frais passé en paramètre
      * 
-     * @return un tableau associatif contenant id, nom, prenom des visiteurs
+     * @param string $idFrais
+     * @param string $moisSuivant 
+     * 
+     * @return null
      */
-//    public function suspendreFraisHorsForfait($idFrais) {
-//        $requetePrepare = PdoGSB::$monPdo->prepare(
-//                'update lignefraishorsforfait '
-//                . 'set mois=CONVERT(mois, integer)+1 '
-//                . 'where id=:id'
-//        );
-//        $requetePrepare->bindValue(':id', $idFrais, PDO::PARAM_STR);
-//        $requetePrepare->execute();
-//    }
+    public function reporterUnFraisHorsForfait($idFrais, $moisSuivant) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                "update lignefraishorsForfait "
+                . "set mois=:mois "
+                . "where id=:idFrais"
+        );
+        $requetePrepare->bindParam(":idFrais", $idFrais, PDO::PARAM_INT);
+        $requetePrepare->bindParam(":mois", $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+    /**
+     * Met à jour la colonne montantValidee de la fiche du visiteur et du mois 
+     * passé en paramètre
+     * 
+     * @param string $idVisiteur
+     * @param string $mois
+     */
+    private function setMontantValide($idVisiteur, $mois) {
+        $montant = $this->getMontantTotal($idVisiteur, $mois);
+        $requete = PdoGsb::$monPdo->prepare(
+                "update fichefrais "
+                . "set montantvalide=:montant "
+                . "where idvisiteur=:id and "
+                . "mois=:mois"
+        );
+        $requete->bindParam(':montant', $montant);
+        $requete->bindParam(':id', $idVisiteur, PDO::PARAM_STR);
+        $requete->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requete->execute();
+    }
 
     /**
      * Retourne les informations de tous les visiteurs
@@ -540,6 +584,12 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
+    /**
+     * Retourne l'id, le nom et le prénom des visiteurs qui ont au moins 
+     * une fiche à valider
+     * 
+     * @return tableau associatif
+     */
     public function getVisiteursAValider() {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "select DISTINCT visiteur.id as id, "
@@ -553,6 +603,7 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /**
      * Retourne les ID des visiteurs pour lesquelles les visiteurs
      * sélectionnés ont des fiches de frais à l'état validée ou Mise en Paiement
@@ -571,10 +622,7 @@ class PdoGsb {
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
-       
     }
-
-
 
     /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
@@ -683,7 +731,7 @@ class PdoGsb {
      * 
      * @param string $id du visiteur 
      * @param string $mois de la fiche
-     * @return le total à rembourser (float)
+     * @return {float} le total à rembourser
      */
     public function getMontantTotal($id, $mois) {
         $montantForfait = $this->getMontantTotalForfait($id, $mois);
@@ -714,7 +762,6 @@ class PdoGsb {
         return (float) $res['total'];
     }
 
-    
     /**
      * Retourne le montant en € à rembourser pour les frais hors forfait
      * 
