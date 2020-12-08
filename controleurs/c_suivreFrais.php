@@ -26,9 +26,9 @@ switch ($action) {
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $leStatut =$pdo->getEtatFiche($idVisiteur, $mois);
+        $dateModif = $pdo->getDateModif($idVisiteur, $mois);
         include 'vues/blocks/comptable/v_formulaireRechercheFiches.php';
         include 'vues/blocks/comptable/suivreFrais/v_ficheFraisMP.php';
-        include 'vues/blocks/comptable/v_totalRemboursement.php';
         break;
     case 'dateAjax':
         $id = filter_input(INPUT_POST, 'idVi', FILTER_SANITIZE_STRING);

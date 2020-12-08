@@ -10,6 +10,7 @@
  * GitHub : https://github.com/ALautrette
  */
 ?>
+<hr>
 <div class="row">
     <h3>Eléments forfaitisés</h3>
     <div class = "col-md-4">

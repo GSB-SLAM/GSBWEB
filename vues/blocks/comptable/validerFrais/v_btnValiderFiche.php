@@ -5,8 +5,8 @@
  * and open the template in the editor.
  */
 ?>
-<div class="row mb-40">
-    <a class="btn btn-success" 
+<div class="row mb-40 centrer">
+    <a class="btn btn-success btn-valider" 
        href="index.php?uc=validerFrais&action=validerFiche"
        onclick="return confirm('Voulez-vous vraiment accepter cette fiche?');">
         Valider la fiche

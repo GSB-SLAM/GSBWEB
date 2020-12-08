@@ -147,6 +147,7 @@ class PdoGsb {
      * recherche
      * @return tableau associatif de mois sous la forme mmaaaa
      */
+
     public function getMoisFichesValideesEtMiseEnPaiement($idVisiteur) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 'select fichefrais.mois as mois '
@@ -177,8 +178,8 @@ class PdoGsb {
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    
-/**
+
+    /**
      * Récupère le nom et le prénom d'un utilisateur
      * 
      * @param string $id du visiteur 
@@ -650,6 +651,7 @@ class PdoGsb {
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
     }
+
     /**
      * Retourne le libelleEtat de la fiche du visiteur passé en paramètre en 
      * fonction du mois également passé en paramètre
@@ -657,20 +659,21 @@ class PdoGsb {
      * @param type $mois
      * @return libelleEtat
      */
-    public function getEtatFiche($idVisiteur, $mois){
+    public function getEtatFiche($idVisiteur, $mois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT etat.libelle as libelleEtat '
                 . 'FROM fichefrais INNER JOIN etat '
                 . 'ON fichefrais.idetat = etat.id '
                 . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
                 . 'AND fichefrais.mois = :unMois'
-                );
+        );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
         return $laLigne['libelleEtat'];
     }
+
     /**
      * Modifie l'état et la date de modification d'une fiche de frais.
      * Modifie le champ idEtat et met la date de modif à aujourd'hui.
@@ -748,6 +751,27 @@ class PdoGsb {
         $requetePrepare->execute();
         $res = $requetePrepare->fetch();
         return (float) $res['total'];
+    }
+
+    /**
+     * Retourne la date de la dernière modification appaortée sur la fiche
+     * 
+     * @param type $idVisiteur
+     * @param type $mois
+     * @return date format timestamp
+     */
+    public function getDateModif($idVisiteur, $mois) {
+        $requete = PdoGsb::$monPdo->prepare(
+                "select datemodif "
+                . "from fichefrais "
+                . "where idvisiteur=:id "
+                . "and mois=:mois"
+        );
+        $requete->bindParam(":id", $idVisiteur, pdo::PARAM_STR);
+        $requete->bindParam(":mois", $mois, pdo::PARAM_STR);
+        $requete->execute();
+        $res = $requete->fetch();
+        return $res["datemodif"];
     }
 
     /**

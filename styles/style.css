@@ -1,3 +1,8 @@
+:root{
+    --orange: #FFAB4C;
+    /*--orange: #ff8800;*/
+}
+
 .header {
     margin-top: 10px;
 }
@@ -20,12 +25,12 @@
 
 .orange {
     color: #fff !important;
-    background-color: #ff8800!important;
-    border-color: #ff8800 !important;
+    background-color: var(--orange)!important;
+    border-color: var(--orange) !important;
 }
 
 .texteorange{
-    color: #ff8800!important;
+    color: var(--orange)!important;
     background-color: #fff;
 }
 
@@ -34,31 +39,45 @@
 }
 
 .borderorange{
-    border-color:#ff8800!important;
+    border-color:var(--orange)!important;
 }
 
 .nav-pills > li.active > .activeorange{
-    background-color:#ff8800!important;
+    background-color:var(--orange)!important;
     color:#fff!important;
 }
 
 .btnorange{
-    background-color: #ff8800!important;
+    background-color: var(--orange)!important;
     color: #fff!important;
     border-color: #000!important;
 }
 
 .btnorange:hover{
-    background-color: #ff8800;
+    background-color: var(--orange);
     color:#fff;
 }
 
 .btnsuivreorange{
-    background: #ff8800!important;
-    border-color: #ff8800!important;
+    background: var(--orange)!important;
+    border-color: var(--orange)!important;
     color:#fff;
 }
 
 .mb-40{
     margin-bottom: 40px;
+}
+.fraisRefuse{
+    background: #d9534f;
+}
+
+.btn-valider{
+    width: 200px;
+    height: 50px;
+    line-height: 35px;
+    font-size: large;
+}
+
+.centrer{
+    text-align: center;
 }
