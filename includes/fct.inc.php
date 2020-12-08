@@ -190,8 +190,8 @@ function lesQteFraisValides($lesFrais) {
  * @param string $libelle
  * @return boléen
  */
-function estDejaRefuseouReporte($libelle) {
-    return substr($libelle, 0, 6) == "REFUSE" || substr($libelle, 0, 7) == 'REPORTE';
+function estDejaRefuse($libelle) {
+    return substr($libelle, 0, 6) == "REFUSE";
 }
 
 

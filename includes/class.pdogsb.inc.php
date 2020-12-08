@@ -194,18 +194,6 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetch(PDO::FETCH_ASSOC);
     }
-    
-    public function validerFiche($id, $mois) {
-        $this->reporterFraisHorsForfait($id, $mois);
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-                "select nom, prenom "
-                . "from visiteur "
-                . "where id=:id"
-        );
-        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch(PDO::FETCH_ASSOC);
-    }
 
     /**
      * Passe la fiche à l'état validé et met à 
@@ -217,26 +205,6 @@ class PdoGsb {
     public function validerFiche($id, $mois) {
         $this->majEtatFicheFrais($id, $mois, 'VA');
         $this->setMontantValide($id, $mois);
-    }
-
-    /**
-     * Reporte d'un mois les frais qui ont 'REPORTE' au début de leur libellé
-     * puis retire 'REPORTE' du libelle pour un visiteur et un mois passé en paramètre
-     * 
-     * @param string $id du visiteur
-     * @param string $mois de la fiche
-     */
-    private function reporterFraisHorsForfait($id, $mois) {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-                "update lignefraishorsForfait "
-                . "set mois=CONVERT(mois, integer)+1, "
-                . "libelle = substring(libelle, 9) "
-                . "where idvisiteur=:id "
-                . "and mois=:mois "
-                . "and libelle like 'REPORTE%'");
-        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
-        $requetePrepare->execute();
     }
 
     /**
@@ -255,7 +223,7 @@ class PdoGsb {
                 . "where id=:idFrais"
         );
         $requetePrepare->bindParam(":idFrais", $idFrais, PDO::PARAM_INT);
-        $requetePrepare->bindParam(":mois", $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(":mois", $moisSuivant, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
 
@@ -773,7 +741,6 @@ class PdoGsb {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 "select sum(montant) as total from lignefraishorsforfait "
                 . "where idvisiteur=:id and mois=:mois "
-                . "and libelle not like 'REPORTE%' "
                 . "and libelle not like 'REFUSE%'"
         );
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);

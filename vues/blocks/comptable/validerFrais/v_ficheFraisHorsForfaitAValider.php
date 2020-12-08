@@ -36,7 +36,7 @@
                         <td> <?php echo $libelle ?></td>
                         <td><?= $montant ?></td>
                         <td>
-                            <?php if (!estDejaRefuseOuReporte($libelle)) { ?>
+                            <?php if (!estDejaRefuse($libelle)) { ?>
                                 <a class="btn btn-danger" 
                                    href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>" 
                                    onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">
