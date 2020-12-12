@@ -330,7 +330,8 @@ class PdoGsb {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT fraisforfait.id as idfrais, '
                 . 'fraisforfait.libelle as libelle, '
-                . 'lignefraisforfait.quantite as quantite '
+                . 'lignefraisforfait.quantite as quantite, '
+                . 'fraisforfait.montant as montant '
                 . 'FROM lignefraisforfait '
                 . 'INNER JOIN fraisforfait '
                 . 'ON fraisforfait.id = lignefraisforfait.idfraisforfait '
@@ -701,6 +702,50 @@ class PdoGsb {
     }
 
     /**
+     * Retourne le montant validé pour la fiche correspondante
+     * 
+     * @param type $idVisiteur
+     * @param type $mois
+     * @return string
+     */
+    public function getMontantValide($idVisiteur, $mois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                "select montantvalide "
+                . "from fichefrais "
+                . "where fichefrais.idvisiteur=:id "
+                . "and fichefrais.mois=:mois"
+        );
+        $requetePrepare->bindParam(':id', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res = $requetePrepare->fetch();
+        return $res['montantvalide'];
+    }
+
+    /**
+     * Retourne le montant remboursé par km en fonction du véhicule pour 
+     * la fiche correspondante
+     * 
+     * @param string $idVisiteur
+     * @param string $mois
+     * 
+     * @return float
+     */
+    public function getMontantFraisKilometrique($idVisiteur, $mois) {
+        $requete = PdoGsb::$monPdo->prepare(
+                "select typevehicule.montant as montant "
+                . "from typevehicule inner join fichefrais "
+                . "on typevehicule.id=fichefrais.idtypevehicule "
+                . "where fichefrais.idvisiteur=:id "
+                . "and fichefrais.mois=:mois"
+        );
+        $requete->bindParam(':id', $idVisiteur, pdo::PARAM_STR);
+        $requete->bindParam(':mois', $mois, pdo::PARAM_STR);
+        $requete->execute();
+        return $requete->fetch()['montant'];
+    }
+
+    /**
      * Retourne le total en € à rembourser sur une fiche
      * 
      * @param string $id du visiteur 
@@ -710,11 +755,41 @@ class PdoGsb {
     public function getMontantTotal($id, $mois) {
         $montantForfait = $this->getMontantTotalForfait($id, $mois);
         $montantFraisHors = $this->getMontantTotalHorsForfait($id, $mois);
-        return $montantForfait + $montantFraisHors;
+        $montantFraisKilometrique = $this->getMontantTotalFraisKilometrique($id, $mois);
+        return $montantForfait + $montantFraisHors + $montantFraisKilometrique;
+    }
+
+    /**
+     * Retourne le coup total du remboursement des frais kilométrique de la fiche 
+     * correspondante en fonction de son type de véhicule
+     * 
+     * @param string $idVitieur
+     * @param string $mois
+     * 
+     * @return float
+     */
+    private function getMontantTotalFraisKilometrique($idVisiteur, $mois) {
+        $requete = PdoGsb::$monPdo->prepare(
+                "select (lignefraisforfait.quantite*typevehicule.montant) "
+                . "as total "
+                . "from lignefraisforfait inner join fichefrais "
+                . "on lignefraisforfait.idvisiteur=fichefrais.idvisiteur "
+                . "and lignefraisforfait.mois = fichefrais.mois "
+                . "inner join typevehicule "
+                . "on fichefrais.idtypevehicule=typevehicule.id "
+                . "where fichefrais.idvisiteur=:id and "
+                . " fichefrais.mois=:mois "
+                . "and lignefraisforfait.idfraisforfait='KM'"
+        );
+        $requete->bindParam(':id', $idVisiteur, pdo::PARAM_STR);
+        $requete->bindParam(':mois', $mois, pdo::PARAM_STR);
+        $requete->execute();
+        return (float)$requete->fetch()['total'];
     }
 
     /**
      * Retourne le montant en € à rembourser pour les frais forfaitisés
+     * sauf pour les frais kilométrique
      * 
      * @param string $id du visiteur 
      * @param string $mois de la fiche
@@ -727,7 +802,8 @@ class PdoGsb {
                 . 'from fraisforfait '
                 . 'inner join lignefraisforfait '
                 . 'on fraisforfait.id = lignefraisforfait.idfraisforfait '
-                . 'where idvisiteur=:id and mois=:mois'
+                . 'where idvisiteur=:id and mois=:mois '
+                . 'and idfraisforfait!="KM"'
         );
         $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
         $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);

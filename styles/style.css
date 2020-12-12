@@ -89,3 +89,19 @@
 .fs-16{
     font-size: 16px;
 }
+
+.flex{
+    display: flex;
+}
+
+.w-a{
+    width: auto !important;
+}
+
+.mr-10{
+    margin-right: 10px;
+}
+
+.mt-7{
+    margin-top: 7px;
+}

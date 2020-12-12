@@ -24,14 +24,18 @@
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
                     $quantite = $unFrais['quantite'];
+                    $montant = $unFrais['montant'];
                     ?>
                     <div class="form-group">
                         <label for="<?php echo $idFrais ?>" class="fs-16"><?php echo $libelle ?></label>
-                        <input type="text" id="<?php echo $idFrais ?>" 
-                               name="lesFrais[<?php echo $idFrais ?>]"
-                               size="10" maxlength="5" 
-                               value="<?php echo $quantite ?>" 
-                               class="form-control">
+                        <div class="flex">
+                            <input type="text" id="<?php echo $idFrais ?>" 
+                                   name="lesFrais[<?php echo $idFrais ?>]"
+                                   size="10" maxlength="5" 
+                                   value="<?php echo $quantite ?>" 
+                                   class="form-control w-a mr-10">
+                            <span class="mt-7"><?= $montant ?>/unité</span>
+                        </div>
                     </div>
                     <?php
                 }

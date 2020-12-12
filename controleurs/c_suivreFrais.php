@@ -22,7 +22,7 @@ switch ($action) {
             'mois' => $mois,
         );
         $dates = $pdo->getMoisFichesValideesEtMiseEnPaiement($idVisiteur);
-        $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
+        $montantTotal = $pdo->getMontantValide($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $leStatut =$pdo->getEtatFiche($idVisiteur, $mois);

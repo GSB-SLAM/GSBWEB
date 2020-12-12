@@ -27,6 +27,7 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisForfait[1]['montant'] = $pdo->getMontantFraisKilometrique($idVisiteur, $mois);
         include 'vues/blocks/comptable/v_validationFicheFrais.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
@@ -52,11 +53,12 @@ switch ($action) {
         $mois = $_SESSION['current']['mois'];
         $idVisiteur = $_SESSION['current']['id'];
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'REFUSE ');
+        $pdo->ajoutLibelleFraisHorsForfait($idFrais, 'REFUSE : ');
         $dates = $pdo->getMoisFichesAValider($idVisiteur);
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisForfait[1]['montant'] = $pdo->getMontantFraisKilometrique($idVisiteur, $mois);
         include 'vues/blocks/comptable/v_validationFicheFrais.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisForfaitAValider.php';
         include 'vues/blocks/comptable/validerFrais/v_ficheFraisHorsForfaitAValider.php';
@@ -77,6 +79,7 @@ switch ($action) {
         $montantTotal = $pdo->getMontantTotal($idVisiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisForfait[1]['montant'] = $pdo->getMontantFraisKilometrique($idVisiteur, $mois);
         ajouterSucces("Frais reporté avec succès");
         include 'vues/v_succes.php';
         include 'vues/blocks/comptable/v_validationFicheFrais.php';
