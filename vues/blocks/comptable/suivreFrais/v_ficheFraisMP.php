@@ -33,7 +33,7 @@
     <div class="panel-body">
         <strong><u>Etat</u> :</strong> <?php echo $leStatut ?>
          le <?php echo dateAnglaisVersFrancais($dateModif) ?> <br>
-        <strong><u>Montant validé</u> :</strong> <?php echo $montantTotal ?>€
+        <strong><u>Montant validé</u> :</strong> <?php echo $montantTotal ?> €
     </div>
 </div>
 <hr>
@@ -81,7 +81,7 @@
             <tr <?php if(estRefuse($libelle)){ echo "class='fraisRefuse'";}?>>
                 <td><?php echo $date ?></td>
                 <td><?php echo $libelle ?></td>
-                <td><?php echo $montant ?></td>
+                <td><?php echo $montant ?> €</td>
             </tr>
             <?php
         }
@@ -96,7 +96,7 @@ if ($leStatut == "Validée") { ?>
         <a class="btn btn-success btn-valider" type="button" href="index.php?uc=suivreFrais&
            action=miseEnPaiementFiche" id="btnMettre-en-Paiement" 
            onclick="return confirm('Voulez-vous vraiment mettre en paiement cette\n\
-         fiche?');">Mettre en Paiement</a>
+         fiche?');">Mettre au paiement</a>
     </div>
 <?php } ?>
                     

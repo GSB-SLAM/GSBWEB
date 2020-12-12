@@ -12,6 +12,7 @@
 ?>
 <hr>
 <div class="row">
+    <h2 class="texteorange">Valider la fiche de frais</h2>
     <h3>Eléments forfaitisés</h3>
     <div class = "col-md-4">
         <form method = "post"
@@ -25,7 +26,7 @@
                     $quantite = $unFrais['quantite'];
                     ?>
                     <div class="form-group">
-                        <label for="<?php echo $idFrais ?>"><?php echo $libelle ?></label>
+                        <label for="<?php echo $idFrais ?>" class="fs-16"><?php echo $libelle ?></label>
                         <input type="text" id="<?php echo $idFrais ?>" 
                                name="lesFrais[<?php echo $idFrais ?>]"
                                size="10" maxlength="5" 

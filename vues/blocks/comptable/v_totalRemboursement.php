@@ -13,6 +13,6 @@
 <hr>
 <div class="row centrer">
     <h3>Montant total du remboursement :  
-        <span id="total"><?php echo $montantTotal ?></span>€
+        <span id="total"><?php echo $montantTotal ?></span> €
     </h3>
 </div>

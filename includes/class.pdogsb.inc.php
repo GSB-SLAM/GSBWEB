@@ -152,7 +152,7 @@ class PdoGsb {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 'select fichefrais.mois as mois '
                 . 'from fichefrais '
-                . 'where (fichefrais.idetat="VA" or fichefrais.idetat="MP")'
+                . 'where (fichefrais.idetat="VA" or fichefrais.idetat="MP" or fichefrais.idetat="RB")'
                 . 'and fichefrais.idvisiteur=:idVisiteur'
         );
         $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -281,7 +281,8 @@ class PdoGsb {
         $requetePrepare = PdoGsb::$monPdo->prepare(
                 'SELECT * FROM lignefraishorsforfait '
                 . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
-                . 'AND lignefraishorsforfait.mois = :unMois'
+                . 'AND lignefraishorsforfait.mois = :unMois '
+                . 'order by date'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
@@ -567,7 +568,8 @@ class PdoGsb {
                 . "from visiteur "
                 . "inner join fichefrais "
                 . "on visiteur.id = fichefrais.idvisiteur "
-                . "where fichefrais.idetat='CL'"
+                . "where fichefrais.idetat='CL' "
+                . "order by visiteur.nom"
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
@@ -587,7 +589,8 @@ class PdoGsb {
                 . "from visiteur "
                 . "inner join fichefrais "
                 . "on visiteur.id = fichefrais.idvisiteur "
-                . "where fichefrais.idetat='VA' or fichefrais.idetat='MP'"
+                . "where fichefrais.idetat='VA' or fichefrais.idetat='MP' or fichefrais.idetat='RB' "
+                . "order by visiteur.nom"
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);

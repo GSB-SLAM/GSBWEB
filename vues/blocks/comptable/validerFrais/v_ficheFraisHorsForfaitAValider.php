@@ -13,13 +13,13 @@
 <hr>
 <div class="row">
     <div class="panel panel-info borderorange">
-        <div class="panel-heading borderorange orange">Descriptif des éléments hors forfait</div>
+        <div class="panel-heading borderorange orange fs-24">Descriptif des éléments hors forfait</div>
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
-                    <th class="date">Date</th>
-                    <th class="libelle">Libellé</th>  
-                    <th class="montant">Montant</th>  
+                    <th class="date fs-16">Date</th>
+                    <th class="libelle fs-16">Libellé</th>  
+                    <th class="montant fs-16">Montant</th>  
                     <th class="action">&nbsp;</th> 
                 </tr>
             </thead>  
@@ -32,23 +32,25 @@
                     $id = $unFraisHorsForfait['id'];
                     $refuse = estRefuse($libelle);
                     ?>           
-                    <tr <?php if($refuse){ echo "class='fraisRefuse'";}?>>
+                    <tr <?php if ($refuse) {
+                    echo "class='fraisRefuse'";
+                } ?>>
                         <td> <?php echo $date ?></td>
                         <td> <?php echo $libelle ?></td>
-                        <td><?= $montant ?></td>
+                        <td><?= $montant ?> €</td>
                         <td>
-                            <?php if (!$refuse) { ?>
+    <?php if (!$refuse) { ?>
+                                <a class="btn btn-warning" 
+                                   href="index.php?uc=validerFrais&action=reporterFrais&idFrais=<?php echo $id ?>" 
+                                   onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">
+                                    Reporter
+                                </a>
                                 <a class="btn btn-danger" 
                                    href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>" 
                                    onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">
                                     Refuser
                                 </a>
-                                <a class="btn btn-warning" 
-                                   href="index.php?uc=validerFrais&action=reporterFrais&idFrais=<?php echo $id ?>" 
-                                   onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">
-                                    Reporter
-                                </a>                           
-                            <?php } ?>
+                    <?php } ?>
                         </td>
                     </tr>
                     <?php
