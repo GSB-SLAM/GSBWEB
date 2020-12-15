@@ -784,7 +784,7 @@ class PdoGsb {
         $requete->bindParam(':id', $idVisiteur, pdo::PARAM_STR);
         $requete->bindParam(':mois', $mois, pdo::PARAM_STR);
         $requete->execute();
-        return (float)$requete->fetch()['total'];
+        return (float) $requete->fetch()['total'];
     }
 
     /**
@@ -908,6 +908,56 @@ class PdoGsb {
     }
 
     /**
-     * récupère l'id, le nom, le prenom de tous les visiteurs
+     * Retourne tous les types de véhicules rentrés en BDD
+     * 
+     * @return tableau associatif 
      */
+    public function getLesTypesVehicule() {
+        $req = PdoGSB::$monPdo->prepare(
+                "select * from typevehicule order by montant"
+        );
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Retourne le type de véhicule de la fiche de frais correspondant à 
+     * l'id du visiteur et le mois passé en paramètre
+     * 
+     * @param string $idVisiteur
+     * @param string $mois
+     * 
+     * @return string id du type de véhicule
+     */
+    public function getLeTypeVehicule($idVisiteur, $mois) {
+        $req = PdoGSB::$monPdo->prepare(
+                "select idtypevehicule as id "
+                . "from fichefrais "
+                . "where idvisiteur=:id "
+                . "and mois=:mois"
+        );
+        $req->bindParam(':id', $idVisiteur, pdo::PARAM_STR);
+        $req->bindParam(':mois', $mois, pdo::PARAM_STR);
+        $req->execute();
+        return $req->fetch()['id'];
+    }
+    
+    /**
+     * Met à jour le type de véhicule associé à la fiche de frais correspondant 
+     * au id visiteur et au mois passé en paramètre
+     * 
+     * @param string $idVisiteur
+     * @param string $mois
+     * @param string $idVehicule
+     */
+    public function updateTypeVehicule($idVisiteur, $mois, $idVehicule){
+        $sql = "update fichefrais set idtypevehicule=:idvehicule "
+                . "where idvisiteur=:id and mois=:mois";
+        $req = PdoGsb::$monPdo->prepare($sql);
+        $req->bindParam(':idvehicule', $idVehicule, pdo::PARAM_STR);
+        $req->bindParam(':id', $idVisiteur, pdo::PARAM_STR);
+        $req->bindParam(':mois', $mois, pdo::PARAM_STR);
+        $req->execute();
+    }
+
 }

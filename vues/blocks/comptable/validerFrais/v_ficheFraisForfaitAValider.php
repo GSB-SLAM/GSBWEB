@@ -34,7 +34,23 @@
                                    size="10" maxlength="5" 
                                    value="<?php echo $quantite ?>" 
                                    class="form-control w-a mr-10">
-                            <span class="mt-7"><?= $montant ?>/unité</span>
+                                   <?php if ($idFrais == 'KM') { ?>
+                                <select name="idVehicule" id="idVehicule">
+                                    <?php
+                                    foreach ($lesTypesVehicule as $type) {
+                                        $selected = '';
+                                        if ($leTypeVehicule == $type['id']) {
+                                            $selected = "selected";
+                                        }
+                                        echo "<option value='" . $type['id'] . "'"
+                                        . $selected . ">" . $type['libelle'] . " "
+                                        . "(" . $type['montant'] . " €/km)" . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            <?php } else { ?>
+                                <span class="mt-7"><?= $montant ?> €/unité</span>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php

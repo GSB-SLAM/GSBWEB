@@ -31,8 +31,10 @@
     <div class="panel-heading borderorange orange ">Fiche de frais du
         <?php echo dateBDVersAffichage($mois) ?> : </div>
     <div class="panel-body">
-        <strong><u>Etat</u> :</strong> <?php echo $leStatut ?>
-         le <?php echo dateAnglaisVersFrancais($dateModif) ?> <br>
+        <strong><u>Etat</u> :</strong> <?php echo $leStatut;
+        if ($leStatut != 'Remboursée') { ?>
+            le <?php echo dateAnglaisVersFrancais($dateModif);
+        } ?> <br>
         <strong><u>Montant validé</u> :</strong> <?php echo $montantTotal ?> €
     </div>
 </div>
@@ -76,27 +78,27 @@
             $date = $unFraisHorsForfait['date'];
             $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
             $montant = $unFraisHorsForfait['montant'];
-            
             ?>
-            <tr <?php if(estRefuse($libelle)){ echo "class='fraisRefuse'";}?>>
+            <tr <?php if (estRefuse($libelle)) {
+                echo "class='fraisRefuse'";
+            } ?>>
                 <td><?php echo $date ?></td>
                 <td><?php echo $libelle ?></td>
                 <td><?php echo $montant ?> €</td>
             </tr>
-            <?php
-        }
-        ?>
+    <?php
+}
+?>
     </table>
 </div>
 <div class="row">
 </div>
-<?php
-if ($leStatut == "Validée") { ?>
+<?php if ($leStatut == "Validée") { ?>
     <div class="row centrer">
         <a class="btn btn-success btn-valider" type="button" href="index.php?uc=suivreFrais&
            action=miseEnPaiementFiche" id="btnMettre-en-Paiement" 
            onclick="return confirm('Voulez-vous vraiment mettre en paiement cette\n\
-         fiche?');">Mettre au paiement</a>
+             fiche?');">Mettre au paiement</a>
     </div>
 <?php } ?>
                     

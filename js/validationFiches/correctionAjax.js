@@ -29,6 +29,7 @@ function updateFraisForfait() {
     parametres += "&KM=" + document.getElementById('KM').value;
     parametres += "&NUI=" + document.getElementById('NUI').value;
     parametres += "&REP=" + document.getElementById('REP').value;
+    parametres += "&IDV=" + document.getElementById('idVehicule').value;
     xhr.send(parametres);
 }
 
