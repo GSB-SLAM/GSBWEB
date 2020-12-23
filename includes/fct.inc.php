@@ -290,3 +290,25 @@ function getMoisSuivant($mois){
     }
     return $annee . $month;
 }
+
+/**
+ * Transforme une valeur en un montant xx.xx
+ * 
+ * @param float $value
+ * @return string
+ */
+function valeurToMontant($value){
+    $v = (string)$value;
+    $vs = explode('.', $v);
+    if(count($vs) == 2){
+        if(strlen($vs[1]) == 1){
+            $vs[1] = $vs[1] . '0';
+        } else if(strlen($vs[1]) > 2){
+            $vs[1] = substr($vs[1], 0, 2);
+        }
+        $v = $vs[0] . '.' . $vs[1];
+    } else{
+        $v = $v . '.00';
+    }
+    return $v;
+}
