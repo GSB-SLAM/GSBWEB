@@ -26,7 +26,6 @@ switch ($action) {
         }
         break;
     case 'validerMajFraisForfait':
-        var_dump($_POST);
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
         $idVehicule = filter_input(INPUT_POST, 'idVehicule', FILTER_SANITIZE_STRING);
         if (lesQteFraisValides($lesFrais)) {
@@ -46,11 +45,11 @@ switch ($action) {
             include 'vues/v_erreurs.php';
         } else {
             $pdo->creeNouveauFraisHorsForfait(
-                    $idVisiteur,
-                    $mois,
-                    $libelle,
-                    $dateFrais,
-                    $montant
+                $idVisiteur,
+                $mois,
+                $libelle,
+                $dateFrais,
+                $montant
             );
         }
         break;
@@ -59,6 +58,7 @@ switch ($action) {
         $pdo->supprimerFraisHorsForfait($idFrais);
         break;
 }
+
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
 $leTypeVehicule = $pdo->getLeTypeVehicule($idVisiteur, $mois);
