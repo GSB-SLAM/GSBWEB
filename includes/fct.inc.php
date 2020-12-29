@@ -30,6 +30,7 @@ function estConnecte() {
  * @param String $idVisiteur ID du visiteur
  * @param String $nom        Nom du visiteur
  * @param String $prenom     Prénom du visiteur
+ * @param String $type       Type d'utilisateur (comptable ou visiteur)
  *
  * @return null
  */
@@ -96,7 +97,6 @@ function dateAnglaisVersFrancais($maDate) {
  */
 function getMois($date) {
     @list($jour, $mois, $annee) = explode('/', $date);
-    unset($jour);
     if (strlen($mois) == 1) {
         $mois = '0' . $mois;
     }
