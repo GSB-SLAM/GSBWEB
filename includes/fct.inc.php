@@ -188,7 +188,7 @@ function lesQteFraisValides($lesFrais) {
  * Vérifie si le frais hors forfait n'est pas déjà refusé ou reporté
  * 
  * @param string $libelle
- * @return boléen
+ * @return Boolean
  */
 function estRefuse($libelle) {
     return substr($libelle, 0, 6) == "REFUSE";

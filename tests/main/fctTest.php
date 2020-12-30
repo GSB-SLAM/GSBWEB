@@ -411,6 +411,246 @@ if ($value == $valueExpected) {
 }
 
 
+//Test de la fonction estDateValide
+echo '<hr><h2>Test estDateValide($date)</h2>';
+
+$valueTested = '28/12/2019';
+$valueExpected = true;
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = estDateValide($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '812/2020';
+$valueExpected = false;
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = estDateValide($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '01-12/2020';
+$valueExpected = false;
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = estDateValide($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+//Test de la fonction estRefuse
+echo '<hr><h2>Test estRefuse($libelle)</h2>';
+
+$valueTested = 'REFUSE Test Covid';
+$valueExpected = true;
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = estRefuse($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = 'RE FUSE Test Covid';
+$valueExpected = false;
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = estRefuse($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = 'Test Covid';
+$valueExpected = false;
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = estRefuse($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+
+//Test de la fonction valideInfosFrais
+echo '<hr><h2>Test valideInfosFrais($dateFrais, $libelle, $montant)</h2>';
+
+$dateFrais = '12/12/2020';
+$libelle = 'Test Covid';
+$montant = '50';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+unset($_REQUEST['erreurs'][0]);
+valideInfosFrais($dateFrais, $libelle, $montant);
+if (empty($_REQUEST['erreurs'][0])) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$dateFrais = '';
+$libelle = 'Test Covid';
+$montant = '50';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+$valueExpected = 'Le champ date ne doit pas être vide';
+unset($_REQUEST['erreurs']);
+valideInfosFrais($dateFrais, $libelle, $montant);
+$value = $_REQUEST['erreurs'][0];
+if ($valueExpected == $value) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$dateFrais = '12/12-2020';
+$libelle = 'Test Covid';
+$montant = '50';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+$valueExpected = 'Date invalide';
+unset($_REQUEST['erreurs']);
+valideInfosFrais($dateFrais, $libelle, $montant);
+$value = $_REQUEST['erreurs'][0];
+if ($valueExpected == $value) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$dateFrais = '12/12/2018';
+$libelle = 'Test Covid';
+$montant = '50';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+$valueExpected = 'date d\'enregistrement du frais dépassé, plus de 1 an';
+unset($_REQUEST['erreurs']);
+valideInfosFrais($dateFrais, $libelle, $montant);
+$value = $_REQUEST['erreurs'][0];
+if ($valueExpected == $value) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$dateFrais = '12/12/2020';
+$libelle = '';
+$montant = '50';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+$valueExpected = 'Le champ description ne peut pas être vide';
+unset($_REQUEST['erreurs']);
+valideInfosFrais($dateFrais, $libelle, $montant);
+$value = $_REQUEST['erreurs'][0];
+if ($valueExpected == $value) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$dateFrais = '12/12/2020';
+$libelle = 'Test Covid';
+$montant = '';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+$valueExpected = 'Le champ montant ne peut pas être vide';
+unset($_REQUEST['erreurs']);
+valideInfosFrais($dateFrais, $libelle, $montant);
+$value = $_REQUEST['erreurs'][0];
+if ($valueExpected == $value) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$dateFrais = '12/12/2020';
+$libelle = 'Test Covid';
+$montant = 'douze';
+echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
+$test++;
+$valueExpected = 'Le champ montant doit être numérique';
+unset($_REQUEST['erreurs']);
+valideInfosFrais($dateFrais, $libelle, $montant);
+$value = $_REQUEST['erreurs'][0];
+if ($valueExpected == $value) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+
+//Test de la fonction ajouterErreur
+echo '<hr><h2>Test ajouterErreur($msg)</h2>';
+
+$valueTested = 'Erreur';
+$valueExpected = 'Erreur';
+echo ('<h4>Test avec une erreur</h4>');
+$test++;
+unset($_REQUEST['erreurs']);
+ajouterErreur($valueTested);
+$value = $_REQUEST['erreurs'][0];
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = 'Erreur 2';
+$valueExpected = ['Erreur', 'Erreur 2', 'Erreur 2'];
+echo ('<h4>Test avec plusieurs erreurs</h4>');
+$test++;
+ajouterErreur($valueTested);
+ajouterErreur($valueTested);
+$value = $_REQUEST['erreurs'];
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+
 
 echo '<hr><h2>Résultats</h2>';
 echo '<p style="background: cyan">' . $test . ' tests effectués</p>';
