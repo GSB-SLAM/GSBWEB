@@ -504,9 +504,9 @@ $libelle = 'Test Covid';
 $montant = '50';
 echo ('<h4>Test avec ' . $dateFrais . ', ' . $libelle . ', ' . $montant . '</h4>');
 $test++;
-unset($_REQUEST['erreurs'][0]);
+unset($_REQUEST['erreurs']);
 valideInfosFrais($dateFrais, $libelle, $montant);
-if (empty($_REQUEST['erreurs'][0])) {
+if (empty($_REQUEST['erreurs'])) {
     echo '<p style="background: green">Succès</p>';
     $succes++;
 } else {
@@ -642,6 +642,114 @@ $test++;
 ajouterErreur($valueTested);
 ajouterErreur($valueTested);
 $value = $_REQUEST['erreurs'];
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+//Test de la fonction ajouterSucces
+echo '<hr><h2>Test ajouterSucces($msg)</h2>';
+
+$valueTested = 'Succes';
+$valueExpected = 'Succes';
+echo ('<h4>Test avec une erreur</h4>');
+$test++;
+unset($_REQUEST['succes']);
+ajouterSucces($valueTested);
+$value = $_REQUEST['succes'][0];
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = 'Succes 2';
+$valueExpected = ['Succes', 'Succes 2', 'Succes 2'];
+echo ('<h4>Test avec plusieurs succès</h4>');
+$test++;
+ajouterSucces($valueTested);
+ajouterSucces($valueTested);
+$value = $_REQUEST['succes'];
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+
+//Test de la fonction nbErreurs
+echo '<hr><h2>Test nbErreurs()</h2>';
+
+$valueExpected = 0;
+echo ('<h4>Test sans erreurs</h4>');
+$test++;
+unset($_REQUEST['erreurs']);
+$value = nbErreurs();
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueExpected = 2;
+echo ('<h4>Test avec 2 erreurs</h4>');
+$test++;
+unset($_REQUEST['erreurs']);
+ajouterErreur('erreur');
+ajouterErreur('erreur');
+$value = nbErreurs();
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+
+//Test de la fonction getMoisSuivant
+echo '<hr><h2>Test getMoisSuivant($mois)</h2>';
+
+$valueTested = '202011';
+$valueExpected = '202012';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = getMoisSuivant($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '202012';
+$valueExpected = '202101';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = getMoisSuivant($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '199912';
+$valueExpected = '200001';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = getMoisSuivant($valueTested);
 if ($value == $valueExpected) {
     echo '<p style="background: green">Succès</p>';
     $succes++;

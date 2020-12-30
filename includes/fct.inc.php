@@ -20,7 +20,8 @@
  *
  * @return vrai ou faux
  */
-function estConnecte() {
+function estConnecte()
+{
     return isset($_SESSION['idVisiteur']);
 }
 
@@ -34,7 +35,8 @@ function estConnecte() {
  *
  * @return null
  */
-function connecter($idVisiteur, $nom, $prenom, $type) {
+function connecter($idVisiteur, $nom, $prenom, $type)
+{
     $_SESSION['idVisiteur'] = $idVisiteur;
     $_SESSION['nom'] = $nom;
     $_SESSION['prenom'] = $prenom;
@@ -46,7 +48,8 @@ function connecter($idVisiteur, $nom, $prenom, $type) {
  *
  * @return null
  */
-function deconnecter() {
+function deconnecter()
+{
     session_destroy();
 }
 
@@ -58,7 +61,8 @@ function deconnecter() {
  *
  * @return Date au format anglais aaaa-mm-jj
  */
-function dateFrancaisVersAnglais($maDate) {
+function dateFrancaisVersAnglais($maDate)
+{
     @list($jour, $mois, $annee) = explode('/', $maDate);
     return date('Y-m-d', mktime(0, 0, 0, $mois, $jour, $annee));
 }
@@ -70,7 +74,8 @@ function dateFrancaisVersAnglais($maDate) {
  * @param String $date au format aaaamm
  * @return Date au format mm/aaaa
  */
-function dateBDVersAffichage($date) {
+function dateBDVersAffichage($date)
+{
     return substr($date, 4) . "/" . substr($date, 0, 4);
 }
 
@@ -82,7 +87,8 @@ function dateBDVersAffichage($date) {
  *
  * @return Date au format format français jj/mm/aaaa
  */
-function dateAnglaisVersFrancais($maDate) {
+function dateAnglaisVersFrancais($maDate)
+{
     @list($annee, $mois, $jour) = explode('-', $maDate);
     $date = $jour . '/' . $mois . '/' . $annee;
     return $date;
@@ -95,7 +101,8 @@ function dateAnglaisVersFrancais($maDate) {
  *
  * @return String Mois au format aaaamm
  */
-function getMois($date) {
+function getMois($date)
+{
     @list($jour, $mois, $annee) = explode('/', $date);
     if (strlen($mois) == 1) {
         $mois = '0' . $mois;
@@ -112,7 +119,8 @@ function getMois($date) {
  *
  * @return Boolean vrai ou faux
  */
-function estEntierPositif($valeur) {
+function estEntierPositif($valeur)
+{
     return preg_match('/[^0-9]/', $valeur) == 0;
 }
 
@@ -123,7 +131,8 @@ function estEntierPositif($valeur) {
  *
  * @return Boolean vrai ou faux
  */
-function estTableauEntiers($tabEntiers) {
+function estTableauEntiers($tabEntiers)
+{
     $boolReturn = true;
     foreach ($tabEntiers as $unEntier) {
         if (!estEntierPositif($unEntier)) {
@@ -140,7 +149,8 @@ function estTableauEntiers($tabEntiers) {
  *
  * @return Boolean vrai ou faux
  */
-function estDateDepassee($dateTestee) {
+function estDateDepassee($dateTestee)
+{
     $dateActuelle = date('d/m/Y');
     @list($jour, $mois, $annee) = explode('/', $dateActuelle);
     $annee--;
@@ -156,7 +166,8 @@ function estDateDepassee($dateTestee) {
  *
  * @return Boolean vrai ou faux
  */
-function estDateValide($date) {
+function estDateValide($date)
+{
     $tabDate = explode('/', $date);
     $dateOK = true;
     if (count($tabDate) != 3) {
@@ -180,7 +191,8 @@ function estDateValide($date) {
  *
  * @return Boolean vrai ou faux
  */
-function lesQteFraisValides($lesFrais) {
+function lesQteFraisValides($lesFrais)
+{
     return estTableauEntiers($lesFrais);
 }
 
@@ -190,7 +202,8 @@ function lesQteFraisValides($lesFrais) {
  * @param string $libelle
  * @return Boolean
  */
-function estRefuse($libelle) {
+function estRefuse($libelle)
+{
     return substr($libelle, 0, 6) == "REFUSE";
 }
 
@@ -207,7 +220,8 @@ function estRefuse($libelle) {
  *
  * @return null
  */
-function valideInfosFrais($dateFrais, $libelle, $montant) {
+function valideInfosFrais($dateFrais, $libelle, $montant)
+{
     if ($dateFrais == '') {
         ajouterErreur('Le champ date ne doit pas être vide');
     } else {
@@ -216,7 +230,7 @@ function valideInfosFrais($dateFrais, $libelle, $montant) {
         } else {
             if (estDateDepassee($dateFrais)) {
                 ajouterErreur(
-                        "date d'enregistrement du frais dépassé, plus de 1 an"
+                    "date d'enregistrement du frais dépassé, plus de 1 an"
                 );
             }
         }
@@ -238,7 +252,8 @@ function valideInfosFrais($dateFrais, $libelle, $montant) {
  *
  * @return null
  */
-function ajouterErreur($msg) {
+function ajouterErreur($msg)
+{
     if (!isset($_REQUEST['erreurs'])) {
         $_REQUEST['erreurs'] = array();
     }
@@ -252,7 +267,8 @@ function ajouterErreur($msg) {
  * 
  * @return null
  */
-function ajouterSucces($msg) {
+function ajouterSucces($msg)
+{
     if (!isset($_REQUEST['succes'])) {
         $_REQUEST['succes'] = array();
     }
@@ -264,7 +280,8 @@ function ajouterSucces($msg) {
  *
  * @return Integer le nombre d'erreurs
  */
-function nbErreurs() {
+function nbErreurs()
+{
     if (!isset($_REQUEST['erreurs'])) {
         return 0;
     } else {
@@ -276,17 +293,17 @@ function nbErreurs() {
  * Retourne le mois suivant du mois passé en paramètre
  * @param string $mois au format aaaamm
  * 
- * @return int date au format aaaamm
+ * @return string date au format aaaamm
  */
-function getMoisSuivant($mois){
+function getMoisSuivant($mois)
+{
     $annee = substr($mois, 0, 4);
     $month = substr($mois, 4);
-    if($month == "12"){
+    if ($month == "12") {
         $month = "01";
-        $annee = (string)((int)$annee+1);
-    }
-    else{
-        $month = (string)((int)$month+1);
+        $annee = (string)((int)$annee + 1);
+    } else {
+        $month = (string)((int)$month + 1);
     }
     return $annee . $month;
 }
@@ -297,17 +314,18 @@ function getMoisSuivant($mois){
  * @param float $value
  * @return string
  */
-function valeurToMontant($value){
+function valeurToMontant($value)
+{
     $v = (string)$value;
     $vs = explode('.', $v);
-    if(count($vs) == 2){
-        if(strlen($vs[1]) == 1){
+    if (count($vs) == 2) {
+        if (strlen($vs[1]) == 1) {
             $vs[1] = $vs[1] . '0';
-        } else if(strlen($vs[1]) > 2){
+        } else if (strlen($vs[1]) > 2) {
             $vs[1] = substr($vs[1], 0, 2);
         }
         $v = $vs[0] . '.' . $vs[1];
-    } else{
+    } else {
         $v = $v . '.00';
     }
     return $v;
