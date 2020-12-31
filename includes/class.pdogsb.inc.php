@@ -102,7 +102,7 @@ class PdoGsb
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetch();
+        return $requetePrepare->fetch(pdo::FETCH_ASSOC);
     }
 
     /**
@@ -123,7 +123,7 @@ class PdoGsb
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetch();
+        return $requetePrepare->fetch(pdo::FETCH_ASSOC);
     }
 
     /**
@@ -148,8 +148,8 @@ class PdoGsb
     }
 
     /*     * Retourne un tableau associatif contenant le mois de toutes les fiches 
-     * qui ont été préalablement validées, soit qui sont validées, pour un 
-     * utilisateur donné 
+     * qui ont été préalablement validées, soit qui sont validées, ou qui 
+     * ont déjà été remboursées pour un utilisateur donné 
      * @param string $idVisiteur du visiteur sur lequel va se porter la 
      * recherche
      * @return tableau associatif de mois sous la forme mmaaaa
