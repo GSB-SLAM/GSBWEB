@@ -48,6 +48,11 @@ switch ($action) {
         $leMois = filter_input(INPUT_GET, 'mois', FILTER_SANITIZE_STRING);
         $name = $idVisiteur . $leMois . '.pdf';
         if (!file_exists('fpdf/pdf/' . $name)) {
+            $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
+            $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
+            $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
+            $lesFraisForfait[1]['montant'] = $pdo->getMontantFraisKilometrique($idVisiteur, $leMois);
+            $nomVisiteur = $_SESSION['prenom'] . ' ' . strtoupper($_SESSION['nom']);
             include('fpdf/pdfGsb.php');
         }
         header("Refresh: 0;URL=../fpdf/pdf/" . $name);

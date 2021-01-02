@@ -20,7 +20,7 @@ $echec = 0;
 $test = 0;
 
 //Début des tests de valeurtoMontant
-echo ('<hr><h3>Test valeurToMontant</h3>');
+echo ('<hr><h3>Test valeurToMontant </h3>');
 
 $valueTested = 54;
 $valueExpected = '54.00';
