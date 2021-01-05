@@ -22,7 +22,11 @@
     <div class="panel-body">
         <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
         depuis le <?php echo $dateModif ?> <br>
-        <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?>
+        <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?> <br>
+        <a href="index.php?uc=etatFrais&action=afficherPdf&mois=<?php echo $leMois ?>" 
+        target="_blank">
+            <img src="images/pdf.svg" alt="Afficher au format PDF ici" height="50" width="50">
+        </a>
     </div>
 </div>
 <div class="panel panel-info">
@@ -72,4 +76,3 @@
         ?>
     </table>
 </div>
-<a href="index.php?uc=etatFrais&action=afficherPdf&mois=<?php echo $leMois ?>" target="_blank">DL ICI</a>
