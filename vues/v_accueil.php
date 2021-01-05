@@ -14,34 +14,33 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 ?>
-<div id="accueil">
+<div id="accueil" class="<?php if($_SESSION["type"] == "comptable"){?> texteorange <?php }?>">
     <h2>
-        Gestion des frais<small> - Visiteur : 
+        Gestion des frais<small> -  
             <?php 
-            echo $_SESSION['prenom'] . ' ' . $_SESSION['nom']
+            echo ucfirst($_SESSION["type"]) . " : " .  $_SESSION['prenom'] . ' ' . $_SESSION['nom']
             ?></small>
     </h2>
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
+        <div class="panel panel-primary <?php if($_SESSION["type"] == "comptable"){?> borderorange <?php }?>">
+            <div class="panel-heading <?php if($_SESSION["type"] == "comptable"){?> orange <?php }?>">
                 <h3 class="panel-title">
                     <span class="glyphicon glyphicon-bookmark"></span>
                     Navigation
                 </h3>
             </div>
             <div class="panel-body">
-                <div class="row">
+                <div class="row">                   
                     <div class="col-xs-12 col-md-12">
-                        <a href="index.php?uc=gererFrais&action=saisirFrais"
-                           class="btn btn-success btn-lg" role="button">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <br>Renseigner la fiche de frais</a>
-                        <a href="index.php?uc=etatFrais&action=selectionnerMois"
-                           class="btn btn-primary btn-lg" role="button">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                            <br>Afficher mes fiches de frais</a>
+                        <?php
+                    if($_SESSION["type"] == "visiteur"){
+                        include 'blocks/visiteur/v_navigationVisiteur.html';
+                    } else if($_SESSION["type"] == "comptable"){
+                        include 'blocks/comptable/v_navigationComptable.html';
+                    }
+                    ?>                        
                     </div>
                 </div>
             </div>

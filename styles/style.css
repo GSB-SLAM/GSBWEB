@@ -1,3 +1,107 @@
+:root{
+    --orange: #FFAB4C;
+    /*--orange: #ff8800;*/
+}
+
 .header {
     margin-top: 10px;
+}
+
+.radio-group{
+    margin-top: 10px;
+}
+
+#rdcomptable{
+    margin-left: 10px;
+}
+
+.d-none{
+    visibility: hidden;
+}
+
+.form-visit{
+    margin-right: 5%;
+}
+
+.orange {
+    color: #fff !important;
+    background-color: var(--orange)!important;
+    border-color: var(--orange) !important;
+}
+
+.texteorange{
+    color: var(--orange)!important;
+    background-color: #fff;
+}
+
+.backgroundbouton{
+    background-color: #fff!important;
+}
+
+.borderorange{
+    border-color:var(--orange)!important;
+}
+
+.nav-pills > li.active > .activeorange{
+    background-color:var(--orange)!important;
+    color:#fff!important;
+}
+
+.btnorange{
+    background-color: var(--orange)!important;
+    color: #fff!important;
+    border-color: #000!important;
+}
+
+.btnorange:hover{
+    background-color: var(--orange);
+    color:#fff;
+}
+
+.btnsuivreorange{
+    background: var(--orange)!important;
+    border-color: var(--orange)!important;
+    color:#fff;
+}
+
+.mb-40{
+    margin-bottom: 40px;
+}
+.fraisRefuse{
+    background: #d9534f;
+}
+
+.btn-valider{
+    width: 200px;
+    height: 50px;
+    line-height: 35px;
+    font-size: large;
+}
+
+.centrer{
+    text-align: center;
+}
+
+.fs-24{
+    font-size: 24px;
+}
+
+.fs-16{
+    font-size: 16px;
+}
+
+.flex{
+    display: flex;
+}
+
+.w-a{
+    width: auto !important;
+}
+
+.mr-10{
+    margin-right: 10px;
+}
+
+.mt-7{
+    margin-top: 7px;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Fonctions pour l'application GSB
  *
@@ -30,14 +31,16 @@ function estConnecte()
  * @param String $idVisiteur ID du visiteur
  * @param String $nom        Nom du visiteur
  * @param String $prenom     Prénom du visiteur
+ * @param String $type       Type d'utilisateur (comptable ou visiteur)
  *
  * @return null
  */
-function connecter($idVisiteur, $nom, $prenom)
+function connecter($idVisiteur, $nom, $prenom, $type)
 {
     $_SESSION['idVisiteur'] = $idVisiteur;
     $_SESSION['nom'] = $nom;
     $_SESSION['prenom'] = $prenom;
+    $_SESSION['type'] = $type;
 }
 
 /**
@@ -65,6 +68,18 @@ function dateFrancaisVersAnglais($maDate)
 }
 
 /**
+ * Transforme le format en base de donnée (aaaamm) en format 
+ * pour l'affichage utilisateur (mm/aaaa)
+ * 
+ * @param String $date au format aaaamm
+ * @return Date au format mm/aaaa
+ */
+function dateBDVersAffichage($date)
+{
+    return substr($date, 4) . "/" . substr($date, 0, 4);
+}
+
+/**
  * Transforme une date au format format anglais aaaa-mm-jj vers le format
  * français jj/mm/aaaa
  *
@@ -89,7 +104,6 @@ function dateAnglaisVersFrancais($maDate)
 function getMois($date)
 {
     @list($jour, $mois, $annee) = explode('/', $date);
-    unset($jour);
     if (strlen($mois) == 1) {
         $mois = '0' . $mois;
     }
@@ -183,6 +197,18 @@ function lesQteFraisValides($lesFrais)
 }
 
 /**
+ * Vérifie si le frais hors forfait n'est pas déjà refusé ou reporté
+ * 
+ * @param string $libelle
+ * @return Boolean
+ */
+function estRefuse($libelle)
+{
+    return substr($libelle, 0, 6) == "REFUSE";
+}
+
+
+/**
  * Vérifie la validité des trois arguments : la date, le libellé du frais
  * et le montant
  *
@@ -235,6 +261,21 @@ function ajouterErreur($msg)
 }
 
 /**
+ * Ajoute le libellé d'un succès au tableau des succes
+ * 
+ * @param String $msg Libellé de l'erreur
+ * 
+ * @return null
+ */
+function ajouterSucces($msg)
+{
+    if (!isset($_REQUEST['succes'])) {
+        $_REQUEST['succes'] = array();
+    }
+    $_REQUEST['succes'][] = $msg;
+}
+
+/**
  * Retoune le nombre de lignes du tableau des erreurs
  *
  * @return Integer le nombre d'erreurs
@@ -246,4 +287,46 @@ function nbErreurs()
     } else {
         return count($_REQUEST['erreurs']);
     }
+}
+
+/**
+ * Retourne le mois suivant du mois passé en paramètre
+ * @param string $mois au format aaaamm
+ * 
+ * @return string date au format aaaamm
+ */
+function getMoisSuivant($mois)
+{
+    $annee = substr($mois, 0, 4);
+    $month = substr($mois, 4);
+    if ($month == "12") {
+        $month = "01";
+        $annee = (string)((int)$annee + 1);
+    } else {
+        $month = (string)((int)$month + 1);
+    }
+    return $annee . $month;
+}
+
+/**
+ * Transforme une valeur en un montant xx.xx
+ * 
+ * @param float $value
+ * @return string
+ */
+function valeurToMontant($value)
+{
+    $v = (string)$value;
+    $vs = explode('.', $v);
+    if (count($vs) == 2) {
+        if (strlen($vs[1]) == 1) {
+            $vs[1] = $vs[1] . '0';
+        } else if (strlen($vs[1]) > 2) {
+            $vs[1] = substr($vs[1], 0, 2);
+        }
+        $v = $vs[0] . '.' . $vs[1];
+    } else {
+        $v = $v . '.00';
+    }
+    return $v;
 }

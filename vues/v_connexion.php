@@ -29,7 +29,10 @@
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </span>
-                                <input class="form-control" placeholder="Login"
+                                <input class="form-control" placeholder="Login" 
+                                       <?php if(isset($_POST["login"])){
+                                           echo "value='" . $_POST["login"] . "'";
+                                       }?>
                                        name="login" type="text" maxlength="45">
                             </div>
                         </div>
@@ -41,6 +44,15 @@
                                 <input class="form-control"
                                        placeholder="Mot de passe" name="mdp"
                                        type="password" maxlength="45">
+                                
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" name="type" value="visiteur" 
+                                       id="rdvisiteur" checked>
+                                <label for="rdvisiteur">Visiteur</label>
+                                <input type="radio" name="type" value="comptable" 
+                                       id="rdcomptable">
+                                <label for="rdcomptable">Comptable</label>
                             </div>
                         </div>
                         <input class="btn btn-lg btn-success btn-block"

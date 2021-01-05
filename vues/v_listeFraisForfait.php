@@ -28,7 +28,8 @@
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
-                    $quantite = $unFrais['quantite']; ?>
+                    $quantite = $unFrais['quantite'];
+                    ?>
                     <div class="form-group">
                         <label for="idFrais"><?php echo $libelle ?></label>
                         <input type="text" id="idFrais" 
@@ -36,6 +37,21 @@
                                size="10" maxlength="5" 
                                value="<?php echo $quantite ?>" 
                                class="form-control">
+                               <?php if ($idFrais == 'KM') { ?>
+                            <select name="idVehicule" id="idVehicule">
+                                <?php
+                                foreach ($lesTypesVehicule as $type) {
+                                    $selected = '';
+                                    if ($leTypeVehicule == $type['id']) {
+                                        $selected = "selected";
+                                    }
+                                    echo "<option value='" . $type['id'] . "'"
+                                    . $selected . ">" . $type['libelle'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        <?php }
+                        ?>
                     </div>
                     <?php
                 }

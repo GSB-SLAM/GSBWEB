@@ -7,4 +7,5 @@
  */
 
 require_once '../includes/class.pdogsb.inc.php';
-PdoGsb::hashPasswords();
+PdoGsb::hashPasswordsVisiteurs();
+PdoGsb::hashPasswordsComptables();
