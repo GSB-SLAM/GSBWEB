@@ -18,7 +18,7 @@
 /**
  * Teste si un quelconque visiteur est connecté
  *
- * @return vrai ou faux
+ * @return bool vrai ou faux
  */
 function estConnecte()
 {
