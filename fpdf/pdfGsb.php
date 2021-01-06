@@ -379,7 +379,7 @@ class PdfGsb extends FPDF
         //Marge
         $this->Cell(20 + $largeurColonne * 2);
         //Génère une erreur
-        //$this->Image('images/signatureComptable.png');
+        $this->Image('images/signatureComptable.png');
     }
 }
 
