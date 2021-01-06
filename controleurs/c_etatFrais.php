@@ -14,7 +14,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $idVisiteur = $_SESSION['idVisiteur'];
 switch ($action) {
@@ -53,7 +52,13 @@ switch ($action) {
             $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
             $lesFraisForfait[1]['montant'] = $pdo->getMontantFraisKilometrique($idVisiteur, $leMois);
             $nomVisiteur = $_SESSION['prenom'] . ' ' . strtoupper($_SESSION['nom']);
+            
             include('fpdf/pdfGsb.php');
+
+            $pdf = new PdfGsb();
+            $pdf->AddPage();
+            $pdf->content($idVisiteur, $nomVisiteur, $leMois, $lesFraisHorsForfait, $lesFraisForfait, $lesInfosFicheFrais);
+            $pdf->Output('F', 'fpdf/pdf/' . $name);
         }
         header("Refresh: 0;URL=../fpdf/pdf/" . $name);
 

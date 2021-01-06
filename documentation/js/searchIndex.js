@@ -723,7 +723,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PdfGsb",
             "name": "PdfGsb",
-            "summary": "",
+            "summary": "Classe\u0020permettant\u0020la\u0020g\u00E9n\u00E9ration\u0020du\u0020pdf\u0020des\u0020fiches\u0020de\u0020frais",
             "url": "classes/PdfGsb.html"
         },                {
             "fqsen": "\\PdfGsb\u003A\u003AHeader\u0028\u0029",
@@ -731,10 +731,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PdfGsb.html#method_Header"
         },                {
-            "fqsen": "\\PdfGsb\u003A\u003AContent\u0028\u0029",
-            "name": "Content",
-            "summary": "",
-            "url": "classes/PdfGsb.html#method_Content"
+            "fqsen": "\\PdfGsb\u003A\u003Acontent\u0028\u0029",
+            "name": "content",
+            "summary": "Fonction\u0020g\u00E9n\u00E9rant\u0020tout\u0020le\u0020contenu\u0020du\u0020pdf",
+            "url": "classes/PdfGsb.html#method_content"
         },                {
             "fqsen": "\\PdoGsb",
             "name": "PdoGsb",
