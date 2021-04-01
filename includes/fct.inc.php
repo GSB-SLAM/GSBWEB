@@ -18,7 +18,7 @@
 /**
  * Teste si un quelconque visiteur est connecté
  *
- * @return vrai ou faux
+ * @return bool vrai ou faux
  */
 function estConnecte()
 {
@@ -78,6 +78,80 @@ function dateBDVersAffichage($date)
 {
     return substr($date, 4) . "/" . substr($date, 0, 4);
 }
+
+/**
+ * Fonction transformant une date au format (aaaamm) au format (mois année)
+ * 
+ * @param string $date format aaaamm
+ * @return string la date au format mois année
+ * @return false si la date passé en paramètre n'est pas valide
+ */
+function dateBDVersNaturel($date){
+    $mois = substr($date, 4);
+    
+    switch ($mois){
+        case '01':
+            $moisNaturel = 'Janvier';
+            break;
+        case '02':
+            $moisNaturel = 'Février';
+            break;
+        case '03':
+            $moisNaturel = 'Mars';
+            break;
+        case '04':
+            $moisNaturel = 'Avril';
+            break;
+        case '05':
+            $moisNaturel = 'Mai';
+            break;
+        case '06':
+            $moisNaturel = 'Juin';
+            break;
+        case '07':
+            $moisNaturel = 'Juillet';
+            break;
+        case '08':
+            $moisNaturel = 'Août';
+            break;
+        case '09':
+            $moisNaturel = 'Septembre';
+            break;
+        case '10':
+            $moisNaturel = 'Octobre';
+            break;
+        case '11':
+            $moisNaturel = 'Novembre';
+            break;
+        case '12':
+            $moisNaturel = 'Décembre';
+            break;
+        default :
+            return false;
+    }
+    
+    return $moisNaturel . ' ' . substr($date, 0, 4);
+}
+
+
+/**
+ * Donne le dernier jour du mois (mm) passé en paramètre 
+ * 
+ * @param string $mois format mm
+ * @return string dernier jour du mois
+ */
+function dernierJourMois($mois){
+    $troisUn = array ('01', '03', '05', '07', '08', '10', '12');
+    $troisZero = array('04', '06', '09', '11');
+    if(in_array($mois, $troisUn)){
+        return '31';
+    } else if (in_array($mois, $troisZero)){
+        return '30';
+    } else {
+        return '28';
+    }
+}
+
 
 /**
  * Transforme une date au format format anglais aaaa-mm-jj vers le format

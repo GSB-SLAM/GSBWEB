@@ -759,6 +759,77 @@ if ($value == $valueExpected) {
 }
 
 
+//Test de la fonction dateBDVersNaturel
+echo '<hr><h2>Test dateBDVersNaturel($mois)</h2>';
+
+$valueTested = '202011';
+$valueExpected = 'Novembre 2020';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = dateBDVersNaturel($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '202003';
+$valueExpected = 'Mars 2020';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = dateBDVersNaturel($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+//Test de la fonction dernierJourMois
+echo '<hr><h2>Test dernierJourMois($mois)</h2>';
+
+$valueTested = '01';
+$valueExpected = '31';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = dernierJourMois($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '02';
+$valueExpected = '28';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = dernierJourMois($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
+$valueTested = '04';
+$valueExpected = '30';
+echo ('<h4>Test avec ' . $valueTested . '</h4>');
+$test++;
+$value = dernierJourMois($valueTested);
+if ($value == $valueExpected) {
+    echo '<p style="background: green">Succès</p>';
+    $succes++;
+} else {
+    echo '<p style="background: red">Echec (' . $valueExpected . ' attendu,' . $value . ' obtenu)</p>';
+    $echec++;
+}
+
 
 echo '<hr><h2>Résultats</h2>';
 echo '<p style="background: cyan">' . $test . ' tests effectués</p>';

@@ -2,35 +2,52 @@
 
 require('fpdf.php');
 
+/**
+ * Classe permettant la génération du pdf des fiches de frais
+ */
 class PdfGsb extends FPDF
 {
 
+    /**
+     * 
+     */
     function Header()
     {
-        // Logo
-        //$this->Image('images/logo.jpg', 90, 25, 30);
-
-
-
         $width = ($this->w / 2) - 15;
         $this->Image('images/logo.jpg', $width, 25, 30);
         //Pour descendre le curseur de 50 unités
         $this->Ln(50);
     }
 
-    function Content($idVisiteur, $nomVisiteur, $mois, $lesFraisHorsForfait, $lesFraisForfait, $lesInfosFicheFrais)
+    /**
+     * Fonction générant tout le contenu du pdf
+     * 
+     * @param string $idVisiteur Id du visiteur
+     * @param string $nomVisiteur nom du visiteur
+     * @param string $mois mois de la fiche demandé (aaaamm)
+     * @param array $lesFraisHorsForfait
+     * @param array $lesFraisForfait
+     * @param array $lesInfosFicheFrais
+     */
+    function content($idVisiteur, $nomVisiteur, $mois, $lesFraisHorsForfait, $lesFraisForfait, $lesInfosFicheFrais)
     {
+        //Déclaration de la font utilisé
+        $font = 'Times';
+        
+        $moisNaturel = dateBDVersNaturel($mois);
+        $moisTotal = dateBDVersAffichage($mois);
         // Epaisseur du cadre
         $this->SetLineWidth(0.2);
+        
 
-        $this->SetFont('Times', 'B', 13.5);
+        $this->SetFont($font, 'B', 13.5);
 
         //Titre
 
         //Couleur du texte en bleu
         $this->SetTextColor(31, 73, 125);
         $this->Cell(0, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 1, 'C');
-        $this->SetFont('Times', '', 11);
+        $this->SetFont($font, '', 11);
 
         //Ligne Visiteur
 
@@ -53,7 +70,7 @@ class PdfGsb extends FPDF
         //Ligne Mois
         $this->Cell($marge, 5);
         $this->Cell(50, 5, 'Mois');
-        $this->Cell(50, 5, $mois);
+        $this->Cell(50, 5, iconv("UTF-8", "CP1252//TRANSLIT", $moisNaturel));
 
         //Saut de 1 ligne
         $this->ln(5);
@@ -79,7 +96,7 @@ class PdfGsb extends FPDF
         $this->Cell($largeurLigne, 0, '', 'B');
 
         //Passage en Italique et en gras
-        $this->SetFont('Times', 'BI', 11);
+        $this->SetFont($font, 'BI', 11);
         //Couleur du texte en bleu
         $this->SetTextColor(31, 73, 125);
 
@@ -94,7 +111,7 @@ class PdfGsb extends FPDF
         //Passage de la couleur des traits en bleu
         $this->SetDrawColor(31, 73, 125);
         $this->Cell($largeurColonne + 10, 10, 'Frais Forfaitaires', 'L', 0, 'C');
-        $this->Cell($largeurColonne, 10, 'Quantite', 0, 0, 'C');
+        $this->Cell($largeurColonne, 10, iconv("UTF-8", "CP1252//TRANSLIT", 'Quantité'), 0, 0, 'C');
         $this->Cell($largeurColonne, 10, 'Montant unitaire', 0, 0, 'C');
         $this->Cell($largeurColonne - 10, 10, 'Total', 'R', 0, 'C');
         //Passage de la couleur des traits en noir
@@ -115,12 +132,12 @@ class PdfGsb extends FPDF
 
         $this->Ln(0);
 
-        $this->SetFont('Times', '', 11);
+        $this->SetFont($font, '', 11);
         //Couleur du texte en noir
         $this->SetTextColor(0, 0, 0);
 
         foreach ($lesFraisForfait as $frais) {
-            $libelle = $frais['libelle'];
+            $libelle = iconv("UTF-8", "CP1252//TRANSLIT", $frais['libelle']);
             $quantite = $frais['quantite'];
             $montant = $frais['montant'];
             $total = valeurToMontant((int)$quantite * (float)$montant);
@@ -177,7 +194,7 @@ class PdfGsb extends FPDF
         $this->Ln(10);
 
         //Passage en Italique et en gras
-        $this->SetFont('Times', 'BI', 11);
+        $this->SetFont($font, 'BI', 11);
         //Couleur du texte en bleu
         $this->SetTextColor(31, 73, 125);
 
@@ -208,7 +225,7 @@ class PdfGsb extends FPDF
         $this->Cell($largeurLigne, 0, '', 'B');
 
         //Passage en Italique et en gras
-        $this->SetFont('Times', 'BI', 11);
+        $this->SetFont($font, 'BI', 11);
         //Couleur du texte en bleu
         $this->SetTextColor(31, 73, 125);
 
@@ -224,7 +241,7 @@ class PdfGsb extends FPDF
         //Passage de la couleur des traits en bleu
         $this->SetDrawColor(31, 73, 125);
         $this->Cell($largeurColonne, 10, 'Date', 'L', 0, 'C');
-        $this->Cell($largeurColonne + 10, 10, 'Libelle', 0, 0, 'C');
+        $this->Cell($largeurColonne + 10, 10, iconv("UTF-8", "CP1252//TRANSLIT", 'Libellé'), 0, 0, 'C');
         $this->Cell($largeurColonne - 10, 10, 'Montant', 'R', 0, 'C');
         //Passage de la couleur des traits en noir
         $this->SetDrawColor(0, 0, 0);
@@ -244,13 +261,13 @@ class PdfGsb extends FPDF
 
         $this->Ln(0);
 
-        $this->SetFont('Times', '', 11);
+        $this->SetFont($font, '', 11);
         //Couleur du texte en noir
         $this->SetTextColor(0, 0, 0);
 
         foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
             $date = $unFraisHorsForfait['date'];
-            $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
+            $libelle = iconv("UTF-8", "CP1252//TRANSLIT", $unFraisHorsForfait['libelle']);
             $montant = $unFraisHorsForfait['montant'];
 
             //Passage de la couleur des traits en noir
@@ -309,7 +326,7 @@ class PdfGsb extends FPDF
         $this->Cell(20 + $largeurColonne * 2, 10, '', 'L');
         //Passage de la couleur des traits en bleu
         $this->SetDrawColor(31, 73, 125);
-        $this->Cell($largeurColonne, 10, 'TOTAL ' . $mois, 'L');
+        $this->Cell($largeurColonne, 10, 'TOTAL ' . $moisTotal, 'L');
         $this->Cell($largeurColonne - 10, 10, $lesInfosFicheFrais['montantValide'], 'LR', 0, 'R');
         //Passage de la couleur des traits en noir
         $this->SetDrawColor(0, 0, 0);
@@ -345,10 +362,10 @@ class PdfGsb extends FPDF
         //Saut de 4 lignes
         $this->Ln(20);
 
-        $this->SetFont('Times', '', 12);
+        $this->SetFont($font, '', 12);
         //Marge
         $this->Cell(20 + $largeurColonne * 2, 5);
-        $this->Cell(0, 5, 'Fait à Paris, le ' .  $mois);
+        $this->Cell(0, 5, iconv("UTF-8", "CP1252//TRANSLIT", 'Fait à Paris, le ' . dernierJourMois(substr($mois, 4)) . ' ' . $moisNaturel));
 
         //Saut de 2 lignes
         $this->Ln(10);
@@ -362,11 +379,7 @@ class PdfGsb extends FPDF
         //Marge
         $this->Cell(20 + $largeurColonne * 2);
         //Génère une erreur
-        //$this->Image('images/signatureComptable.png');
+        $this->Image('images/signatureComptable.jpg');
     }
 }
 
-$pdf = new PdfGsb();
-$pdf->AddPage();
-$pdf->Content($idVisiteur, $nomVisiteur, $leMois, $lesFraisHorsForfait, $lesFraisForfait, $lesInfosFicheFrais);
-$pdf->Output('F', 'fpdf/pdf/' . $name);
